@@ -61,10 +61,14 @@ def print_menu(title, list_options, exit_message):
     Returns:
         This function doesn't return anything it only prints to console.
     """
+    print(title)
 
-    # your code
+    for i in range(len(list_options)):
+        position_number = "({}) ".format(str(i+1))
+        print(1 * '\t'+ position_number + list_options[i])
 
-    pass
+    print(1 * '\t' + "(0) " + exit_message)
+
 
 
 def get_inputs(list_labels, title):
@@ -87,8 +91,11 @@ def get_inputs(list_labels, title):
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
     inputs = []
+    print(title)
 
-    # your code
+    for question in list_labels:
+        user_input = input(question + ": ")
+        inputs.append(user_input)
 
     return inputs
 
@@ -110,3 +117,28 @@ def print_error_message(message):
     # your code
 
     pass
+
+def main():
+    #print(get_inputs(["Name","Surname","Age"],"Please provide your personal information"))
+
+    print_menu('Tytul:', ['opcja1', 'opcja2', 'opcja3'], 'exit message')
+
+
+
+
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+
+
+#
