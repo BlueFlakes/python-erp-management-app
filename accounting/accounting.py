@@ -35,8 +35,8 @@ def choose_option(table):
     elif option == "5":
         which_year_max(table)
     elif option == "6":
-        avg_amount(table, year)
         year = get_inputs(["Year"], "Please provide year for which you want to see profit")[0]
+        avg_amount(table, year)
 
     return option
 

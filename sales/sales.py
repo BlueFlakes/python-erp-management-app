@@ -35,8 +35,8 @@ def choose_option(table):
     elif option == "5":
         get_lowest_price_item_id(table)
     elif option == "6":
-        get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
         # get_inputs(list_labels, title)
+        get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
 
     return option
 
