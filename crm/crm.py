@@ -32,10 +32,8 @@ def choose_option(table):
         table = update(table, id_)
     elif option == "5":
         ui.print_result(get_longest_name_id(table), 'The Id of customer with longest name:')
-        print()
     elif option == "6":
         ui.print_result(get_subscribed_emails(table), 'Subscribers:')
-        print()
 
     return option, table
 
@@ -115,8 +113,10 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
+    table, successful = common.remove_record(table, id_)
 
-    # your code
+    if not successful:
+        ui.print_error_message('Error!')
 
     return table
 

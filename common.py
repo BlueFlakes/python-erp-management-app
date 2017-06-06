@@ -117,7 +117,7 @@ def get_max(array):
 def find_longest_string_in_list(list_of_names, return_row_number=False):
     rows_collector = []
     longest = get_max(list_of_names)
-    
+
     for i in range(len(list_of_names)):
         if len(list_of_names[i]) == longest:
             rows_collector.append(i)
@@ -128,6 +128,23 @@ def find_longest_string_in_list(list_of_names, return_row_number=False):
     return longest
 
 
+def remove_record(table, id_):
+    id_storage = get_values_from_column(table, 0)
 
+    records_amount = len(id_storage)
+    rows_to_del = None
 
+    for i in range(records_amount):
+        if id_ == id_storage[i]:
+            rows_to_del = i
+            break
+
+    if rows_to_del:
+        del table[i]
+        successful = True
+
+    else:
+        successful = False
+
+    return table, successful
 #
