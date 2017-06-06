@@ -249,7 +249,7 @@ def modify_corners(board):
 def print_list_elements(results):
 
     for i in range(len(results)):
-        print("{} {}. {}".format('\t', str(i+1), results[i]))
+        print("{}{}. {}".format('\t', str(i+1), results[i]))
 
 
 def print_dict_elements(results):
@@ -297,11 +297,6 @@ def print_table(table, title_list):
     board = modify_corners(board)
     # print board
     print_board(board)
-
-
-
-
-
 
 
 def print_result(result, label):
@@ -400,6 +395,7 @@ def print_error_message(message):
 
 
 def main():
+    pass
     #print(get_inputs(["Name","Surname","Age"],"Please provide your personal information"))
     #print_menu('Tytul:', ['opcja1', 'opcja2', 'opcja3'], 'exit message')
 
@@ -410,8 +406,8 @@ def main():
 
     #print_table(table, title_list)
     #----------------------------------------------------------------------Done
-    print_result({'kamil': 1000, 'Marcin': 230203, 'kuba': 12121}, 'takietam')
-
+    #print_result({'kamil': 1000, 'Marcin': 230203, 'kuba': 12121}, 'takietam')
+    #----------------------------------------------------------------------Done
 
 
 

@@ -31,9 +31,11 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         table = update(table, id_)
     elif option == "5":
-        get_longest_name_id(table)
+        ui.print_result(get_longest_name_id(table), 'The Id of customer with longest name:')
+        print()
     elif option == "6":
-        get_subscribed_emails(table)
+        ui.print_result(get_subscribed_emails(table), 'Subscribers:')
+        print()
 
     return option, table
 
@@ -143,16 +145,55 @@ def update(table, id_):
 # the question: What is the id of the customer with the longest name ?
 # return type: string (id) - if there are more than one longest name, return the first by descending alphabetical order
 def get_longest_name_id(table):
+    names_data = common.get_values_from_column(table, 1)
+    id_data = common.get_values_from_column(table, 0)
+    longest_string, rows = common.find_longest_string_in_list(names_data, True)
 
-    # your code
+    if len(rows) > 1:
+        alphabetical_array = []
+        for i in range(65, 91):
+            alphabetical_array.append([])
 
-    pass
+        for row_number in rows:
+            for alpha in range(65, 91):
+
+                if names_data[row_number][0].upper() == chr(alpha):
+                    alphabetical_array[alpha-65].extend([[names_data[row_number], row_number]])
+
+        descending_alpha_array = alphabetical_array[::-1]
+
+        for first_name in descending_alpha_array:
+            if first_name:
+                id_to_return = id_data[first_name[0][1]]
+                break
+
+    else:
+        id_to_return = id_data[rows[0]]
+
+    return id_to_return
+
 
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
 def get_subscribed_emails(table):
+    names_data = common.get_values_from_column(table, 1)
+    e_mail_data = common.get_values_from_column(table, 2)
+    subs_info = common.get_values_from_column(table, 3)
+    records_amount = len(table)
+    row_number_of_sub_customers = []
+    subscription_score = []
 
-    # your code
+    for i in range(records_amount):
+        if int(subs_info[i]) > 0:
+            row_number_of_sub_customers.append(i)
 
-    pass
+    for i in row_number_of_sub_customers:
+        subscription_score.append(e_mail_data[i]+';'+names_data[i])
+
+    return subscription_score
+
+
+
+
+    #

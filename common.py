@@ -81,3 +81,53 @@ def get_average_year(years_list):
     average_year = sum_of_years / len(years_list)
 
     return average_year
+
+
+def get_values_from_column(table, column_number):
+    temp_storage = []
+
+    for i in range(len(table[0])):
+        temp_storage.append([])
+
+        for j in range(len(table)):
+            temp_storage[i].append(table[j][i])
+
+    return temp_storage[column_number]
+
+
+def get_max(array):
+
+    if type(array[0]) == str:
+        longest = len(array[0])
+    elif type(array[0]) == int:
+        longest = array[0]
+
+    for item in array:
+        if type(item) == str:
+            if len(item) > longest:
+                longest = len(item)
+
+        elif type(item) == int:
+            if item > longest:
+                longest = item
+
+    return longest
+
+
+def find_longest_string_in_list(list_of_names, return_row_number=False):
+    rows_collector = []
+    longest = get_max(list_of_names)
+    
+    for i in range(len(list_of_names)):
+        if len(list_of_names[i]) == longest:
+            rows_collector.append(i)
+
+    if return_row_number == True:
+        longest = [longest, rows_collector]
+
+    return longest
+
+
+
+
+#
