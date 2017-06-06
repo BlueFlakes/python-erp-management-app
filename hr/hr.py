@@ -30,10 +30,12 @@ def choose_option(table):
         # id_ = get_inputs(list_labels, title)
         update(table, id_)
     elif option == "5":
-        which_year_max(table)
+        get_oldest_person(table)
     elif option == "6":
-        avg_amount(table, year)
+        get_persons_closest_to_average(table)
         # get_inputs(list_labels, title)
+
+    return option
 
 
 def start_module():
@@ -46,15 +48,15 @@ def start_module():
         None
     """
 
-    os.system("clear")
-
     options_list = ["Show table", "Add to table", "Remove from table", "Update table",
                     "Who is the oldest person?", "Who is the closest to the average age ?"]
-    ui.print_menu("Human resources: ", options_list, "Exit to menu")
 
     table = data_manager.get_table_from_file("hr/persons.csv")
 
-    choose_option(table)
+    option = float("inf")
+    while not option == "0":
+        ui.print_menu("Human resources: ", options_list, "Exit to menu")
+        option = choose_option(table)
 
 
 def show_table(table):
@@ -67,9 +69,8 @@ def show_table(table):
     Returns:
         None
     """
-    # chane list content
-    title_list = ["id", "month", "day", "year", "incom / outcome", "amount (dollars)"]
 
+    title_list = ["id", "name", "year"]
     ui.print_table(table, title_list)
 
 
@@ -84,7 +85,7 @@ def add(table):
         Table with a new record
     """
 
-    # your code
+    name, year = ui.get_inputs(["Name, Birth year"], "Please provide information")
 
     return table
 
@@ -134,7 +135,6 @@ def get_oldest_person(table):
     sorted_years_list = common.insertion_sort(years_list)
     oldest_people = [table[i][1] for i in range(len(table)) if int(table[i][2]) == sorted_years_list[0]]
 
-    print(oldest_people)
     return oldest_people
 
 
@@ -145,10 +145,8 @@ def get_persons_closest_to_average(table):
     years_list = [int(table[i][2]) for i in range(len(table))]
     average_year = common.get_average_year(years_list)
 
-    print(average_year)
-
     lowest_difference = float("inf")
-    print(lowest_difference)
+
     for i in range(len(table)):
         difference = (int(table[i][2]) - average_year)
         if abs(difference) < lowest_difference:
@@ -156,7 +154,5 @@ def get_persons_closest_to_average(table):
             closest_value = table[i][2]
 
     closest_people = [table[i][1] for i in range(len(table)) if table[i][2] == closest_value]
-    print(closest_people)
+
     return closest_people
-
-
