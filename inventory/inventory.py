@@ -60,7 +60,7 @@ def start_module():
         ui.print_menu("Inventory manager", list_options, "Exit to Menu")
         option, table = choose_option(table)
 
-data_manager.write_table_to_file('inventory/inventory.csv', table)
+    data_manager.write_table_to_file('inventory/inventory.csv', table)
 
 
 def show_table(table):

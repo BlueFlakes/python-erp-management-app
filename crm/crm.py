@@ -93,7 +93,7 @@ def add(table):
 
     list_labels = ["name", "email", "subscribe newsletter"]
 
-    data_to_add = ui.get_inputs(list_labels, "Please provide name, email, subscribe newsletter)
+    data_to_add = ui.get_inputs(list_labels, "Please provide name, email, subscribe newsletter")
 
     data_to_add.insert(0, id_)
 

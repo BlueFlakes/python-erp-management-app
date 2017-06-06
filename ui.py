@@ -320,7 +320,7 @@ def print_result(result, label):
         print_list_elements(result)
     elif type(result) == dict:
         print_dict_elements(result)
-    elif type(result) = str:
+    elif type(result) == str:
         print(result)
 
 

@@ -30,9 +30,11 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         table = update(table, id_)
     elif option == "5":
-        get_oldest_person(table)
+        result = get_oldest_person(table)
+        ui.print_result(result, "The oldest people are: ")
     elif option == "6":
-        get_persons_closest_to_average(table)
+        result = get_persons_closest_to_average(table)
+        ui.print_result(result, "The closest people to average age are: ")
 
     return option, table
 
