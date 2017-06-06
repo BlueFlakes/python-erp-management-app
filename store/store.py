@@ -31,9 +31,9 @@ def choose_option(table):
         # id_ = get_inputs(list_labels, title)
         update(table, id_)
     elif option == "5":
-        which_year_max(table)
+        get_counts_by_manufacturers(table)
     elif option == "6":
-        avg_amount(table, year)
+        get_average_by_manufacturer(table, manufacturer)
         # get_inputs(list_labels, title)
 
 
@@ -50,10 +50,11 @@ def start_module():
     table = data_manager.get_table_from_file('accounting/items.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
-                    "Year with the hightest profit", "Avarege profit in year"
+                    "Count of games by manufacturer",
+                    "Avarege amount of games in stock by manufacturer"
                     ]
 
-    ui.print_menu("Accounting manager", list_options, "Exit to Menu")
+    ui.print_menu("Store manager", list_options, "Exit to Menu")
 
     choose_option(table)
 
@@ -69,7 +70,7 @@ def show_table(table):
         None
     """
 
-    title_list = ["id", "month", "day", "year", "incom / outcome", "amount (dollars)"]
+    title_list = ["id", "title", "manufacturer", "price", "in stock"]
 
     ui.print_table(table, title_list)
 

@@ -60,13 +60,6 @@ def start_module():
     choose_option(table)
 
 
-
-
-
-    # inputs about id to another custom function?
-    # where put read form .csv (here or not here)
-
-
 def show_table(table):
     """
     Display a table

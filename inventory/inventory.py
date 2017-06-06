@@ -32,9 +32,9 @@ def choose_option(table):
         # id_ = get_inputs(list_labels, title)
         update(table, id_)
     elif option == "5":
-        which_year_max(table)
+        get_available_items(table)
     elif option == "6":
-        avg_amount(table, year)
+        get_average_durability_by_manufacturers(table)
         # get_inputs(list_labels, title)
 
 
@@ -48,13 +48,13 @@ def start_module():
         None
     """
 
-    table = data_manager.get_table_from_file('accounting/items.csv')
+    table = data_manager.get_table_from_file('inventory/invnetory.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
-                    "Year with the hightest profit", "Avarege profit in year"
+                    "Available items", "Avarege durability by manufacturers"
                     ]
 
-    ui.print_menu("Accounting manager", list_options, "Exit to Menu")
+    ui.print_menu("Inventory manager", list_options, "Exit to Menu")
 
     choose_option(table)
 
@@ -70,7 +70,7 @@ def show_table(table):
         None
     """
     # change table content
-    title_list = ["id", "month", "day", "year", "incom / outcome", "amount (dollars)"]
+    title_list = ["id", "name", "manufacturer", "purchase date", "durability"]
 
     ui.print_table(table, title_list)
 
