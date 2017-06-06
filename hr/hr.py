@@ -24,16 +24,15 @@ def choose_option(table):
     elif option == "2":
         add(table)
     elif option == "3":
-        # id_ = get_inputs(list_labels, title)
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to remove")[0]
         remove(table, id_)
     elif option == "4":
-        # id_ = get_inputs(list_labels, title)
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         update(table, id_)
     elif option == "5":
         get_oldest_person(table)
     elif option == "6":
         get_persons_closest_to_average(table)
-        # get_inputs(list_labels, title)
 
     return option
 

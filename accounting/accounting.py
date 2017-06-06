@@ -27,16 +27,16 @@ def choose_option(table):
     elif option == "2":
         add(table)
     elif option == "3":
-        # id_ = get_inputs(list_labels, title)
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to remove")[0]
         remove(table, id_)
     elif option == "4":
-        # id_ = get_inputs(list_labels, title)
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         update(table, id_)
     elif option == "5":
         which_year_max(table)
     elif option == "6":
         avg_amount(table, year)
-        # get_inputs(list_labels, title)
+        year = get_inputs(["Year"], "Please provide year for which you want to see profit")[0]
 
     return option
 
