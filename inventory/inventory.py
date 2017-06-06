@@ -17,6 +17,28 @@ import data_manager
 import common
 
 
+def choose_option(table):
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to remove")[0]
+        remove(table, id_)
+    elif option == "4":
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
+        update(table, id_)
+    elif option == "5":
+        get_available_items(table)
+    elif option == "6":
+        get_average_durability_by_manufacturers(table)
+
+    return option
+
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -27,9 +49,16 @@ def start_module():
         None
     """
 
-    # you code
+    table = data_manager.get_table_from_file('inventory/inventory.csv')
 
-    pass
+    list_options = ["Show table", "Add", "Remove", "Update",
+                    "Available items", "Avarege durability of tiems by manufacturers"
+                    ]
+
+    option = float("inf")
+    while not option == "0":
+        ui.print_menu("Inventory manager", list_options, "Exit to Menu")
+        option = choose_option(table)
 
 
 def show_table(table):
@@ -43,9 +72,9 @@ def show_table(table):
         None
     """
 
-    # your code
+    title_list = ["id", "name", "manufacturer", "purchase date", "durability"]
 
-    pass
+    ui.print_table(table, title_list)
 
 
 def add(table):
@@ -112,7 +141,7 @@ def get_available_items(table):
     pass
 
 
-# the question: What are the average durability times for each manufacturer?
+# the question: What are the average durability itmes for each manufacturer?
 # return type: a dictionary with this structure: { [manufacturer] : [avg] }
 #
 # @table: list of lists

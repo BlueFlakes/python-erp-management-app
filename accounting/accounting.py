@@ -18,6 +18,29 @@ import data_manager
 import common
 
 
+def choose_option(table):
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        table = add(table)
+    elif option == "3":
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to remove")[0]
+        table = remove(table, id_)
+    elif option == "4":
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
+        table = update(table, id_)
+    elif option == "5":
+        which_year_max(table)
+    elif option == "6":
+        year = get_inputs(["Year"], "Please provide year for which you want to see profit")[0]
+        avg_amount(table, year)
+
+    return option, table
+
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -28,9 +51,18 @@ def start_module():
         None
     """
 
-    # you code
+    table = data_manager.get_table_from_file('accounting/items.csv')
 
-    pass
+    list_options = ["Show table", "Add", "Remove", "Update",
+                    "Year with the hightest profit", "Avarege profit in year"
+                    ]
+
+    option = float("inf")
+    while not option == "0":
+        ui.print_menu("Accounting manager", list_options, "Exit to Menu")
+        option = choose_option(table)
+
+    data_manager.write_table_to_file('accounting/items.csv', table)
 
 
 def show_table(table):
@@ -44,9 +76,9 @@ def show_table(table):
         None
     """
 
-    # your code
+    title_list = ["id", "month", "day", "year", "incom / outcome", "amount (dollars)"]
 
-    pass
+    ui.print_table(table, title_list)
 
 
 def add(table):
@@ -59,8 +91,15 @@ def add(table):
     Returns:
         Table with a new record
     """
+    id_ = common.generate_random(table)
 
-    # your code
+    list_labels = ["month", "day", "year", "incom / outcome", "amount (dollars)"]
+
+    data_to_add = ui.get_inputs(list_labels, "Please provide month, day, year, incom / outcome, amount (dollars)")
+
+    data_to_add.insert(0, id_)
+
+    table.append(data_to_add)
 
     return table
 

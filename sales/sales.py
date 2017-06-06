@@ -18,6 +18,29 @@ import data_manager
 import common
 
 
+def choose_option(table):
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to remove")[0]
+        remove(table, id_)
+    elif option == "4":
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
+        update(table, id_)
+    elif option == "5":
+        get_lowest_price_item_id(table)
+    elif option == "6":
+        # get_inputs(list_labels, title)
+        get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
+
+    return option
+
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -28,9 +51,16 @@ def start_module():
         None
     """
 
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
 
-    pass
+    list_options = ["Show table", "Add", "Remove", "Update",
+                    "Id of item sold with the lowest price", "Items sold between dates"
+                    ]
+
+    option = float("inf")
+    while not option == "0":
+        ui.print_menu("Sales manager", list_options, "Exit to Menu")
+        option = choose_option(table)
 
 
 def show_table(table):
@@ -44,9 +74,10 @@ def show_table(table):
         None
     """
 
-    # your code
+    # maybe "month", "day", "year" need to be combinated to date right now
+    title_list = ["id", "title", "price", "month", "day", "year"]
 
-    pass
+    ui.print_table(table, title_list)
 
 
 def add(table):

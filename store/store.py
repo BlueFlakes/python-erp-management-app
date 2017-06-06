@@ -16,6 +16,30 @@ import data_manager
 import common
 
 
+def choose_option(table):
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to remove")[0]
+        remove(table, id_)
+    elif option == "4":
+        id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
+        update(table, id_)
+    elif option == "5":
+        get_counts_by_manufacturers(table)
+    elif option == "6":
+        get_average_by_manufacturer(table, manufacturer)
+        manufacturer = get_inputs(["Manufacturer"], "Please provide manufacturer which" +
+                                  "amonunt of games you want see")[0]
+
+    return option
+
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -26,9 +50,17 @@ def start_module():
         None
     """
 
-    # your code
+    table = data_manager.get_table_from_file('store/store.csv')
 
-    pass
+    list_options = ["Show table", "Add", "Remove", "Update",
+                    "Count of games by manufacturer",
+                    "Avarege amount of games in stock by manufacturer"
+                    ]
+
+    option = float("inf")
+    while not option == "0":
+        ui.print_menu("Store manager", list_options, "Exit to Menu")
+        option = choose_option(table)
 
 
 def show_table(table):
@@ -42,9 +74,9 @@ def show_table(table):
         None
     """
 
-    # your code
+    title_list = ["id", "title", "manufacturer", "price (dollars)", "in stock"]
 
-    pass
+    ui.print_table(table, title_list)
 
 
 def add(table):
