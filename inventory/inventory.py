@@ -24,19 +24,19 @@ def choose_option(table):
     if option == "1":
         show_table(table)
     elif option == "2":
-        add(table)
+        table = add(table)
     elif option == "3":
         id_ = ui.get_inputs(["Id"], "Please provide record you want to remove")[0]
-        remove(table, id_)
+        table = remove(table, id_)
     elif option == "4":
         id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
-        update(table, id_)
+        table = update(table, id_)
     elif option == "5":
         get_available_items(table)
     elif option == "6":
         get_average_durability_by_manufacturers(table)
 
-    return option
+    return option, table
 
 
 def start_module():
@@ -58,7 +58,9 @@ def start_module():
     option = float("inf")
     while not option == "0":
         ui.print_menu("Inventory manager", list_options, "Exit to Menu")
-        option = choose_option(table)
+        option, table = choose_option(table)
+
+data_manager.write_table_to_file('accounting/items.csv', table)
 
 
 def show_table(table):
@@ -88,7 +90,15 @@ def add(table):
         Table with a new record
     """
 
-    # your code
+    id_ = common.generate_random(table)
+
+    list_labels = ["name", "manufacturer", "purchase date", "durability"]
+
+    data_to_add = ui.get_inputs(list_labels, "Please provide name, manufacturer, purchase date, durability")
+
+    data_to_add.insert(0, id_)
+
+    table.append(data_to_add)
 
     return table
 
