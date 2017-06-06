@@ -59,7 +59,7 @@ def start_module():
         ui.print_menu("Customer Relationship Management (CRM)", list_options, "Exit to Menu")
         option, table = choose_option(table)
 
-    data_manager.write_table_to_file('accounting/items.csv', table)
+    data_manager.write_table_to_file('crm/customers.csv', table)
 
 
 def show_table(table):
