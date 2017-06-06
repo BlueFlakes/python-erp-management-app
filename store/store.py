@@ -73,7 +73,7 @@ def show_table(table):
         None
     """
 
-    title_list = ["id", "title", "manufacturer", "price", "in stock"]
+    title_list = ["id", "title", "manufacturer", "price (dollars)", "in stock"]
 
     ui.print_table(table, title_list)
 

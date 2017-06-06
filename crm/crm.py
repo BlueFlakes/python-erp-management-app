@@ -52,12 +52,12 @@ def start_module():
     table = data_manager.get_table_from_file('crm/customers.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
-                    "Year with the hightest profit", "Avarege profit in year"
+                    "Id of customer with longest name", "Customers that have to subscribe newsletter"
                     ]
 
     option = float("inf")
     while not option == "0":
-        ui.print_menu("Accounting manager", list_options, "Exit to Menu")
+        ui.print_menu("Customer Relationship Management (CRM)", list_options, "Exit to Menu")
         option = choose_option(table)
 
 
@@ -72,8 +72,7 @@ def show_table(table):
         None
     """
 
-    # chane list content
-    title_list = ["id", "month", "day", "year", "incom / outcome", "amount (dollars)"]
+    title_list = ["id", "name", "email", "subscrib newsletter"]
 
     ui.print_table(table, title_list)
 

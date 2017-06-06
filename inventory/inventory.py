@@ -53,7 +53,7 @@ def start_module():
     table = data_manager.get_table_from_file('inventory/inventory.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
-                    "Available items", "Avarege durability by manufacturers"
+                    "Available items", "Avarege durability of tiems by manufacturers"
                     ]
 
     option = float("inf")
@@ -72,7 +72,7 @@ def show_table(table):
     Returns:
         None
     """
-    # change table content
+
     title_list = ["id", "name", "manufacturer", "purchase date", "durability"]
 
     ui.print_table(table, title_list)
@@ -142,7 +142,7 @@ def get_available_items(table):
     pass
 
 
-# the question: What are the average durability times for each manufacturer?
+# the question: What are the average durability itmes for each manufacturer?
 # return type: a dictionary with this structure: { [manufacturer] : [avg] }
 #
 # @table: list of lists

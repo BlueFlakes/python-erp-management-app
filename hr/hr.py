@@ -55,7 +55,7 @@ def start_module():
 
     option = float("inf")
     while not option == "0":
-        ui.print_menu("Human resources: ", options_list, "Exit to menu")
+        ui.print_menu("Human resources manager", options_list, "Exit to menu")
         option = choose_option(table)
 
 

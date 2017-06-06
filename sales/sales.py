@@ -54,12 +54,12 @@ def start_module():
     table = data_manager.get_table_from_file('sales/sales.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
-                    "Year with the hightest profit", "Avarege profit in year"
+                    "Id of item sold with the lowest price", "Items sold between dates"
                     ]
 
     option = float("inf")
     while not option == "0":
-        ui.print_menu("Accounting manager", list_options, "Exit to Menu")
+        ui.print_menu("Sales manager", list_options, "Exit to Menu")
         option = choose_option(table)
 
 
@@ -74,8 +74,8 @@ def show_table(table):
         None
     """
 
-    # change table content
-    title_list = ["id", "month", "day", "year", "incom / outcome", "amount (dollars)"]
+    # maybe "month", "day", "year" need to be combinated to date right now
+    title_list = ["id", "title", "price", "month", "day", "year"]
 
     ui.print_table(table, title_list)
 
