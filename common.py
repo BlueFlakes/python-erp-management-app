@@ -41,7 +41,7 @@ def generate_random(table):
 
         generated = ''.join(random.sample(generated, len(generated)))
 
-        for i in table:
+        for i in range(len(table)):
             if generated in table[i]:
                 unique_id = False
 
