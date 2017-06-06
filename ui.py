@@ -19,6 +19,7 @@ def convert_each_string_to_integer(table, temp):
 
     return table
 
+
 def check_table_for_type_bugs(table):
     broken_data = False
 
@@ -38,6 +39,7 @@ def check_table_for_type_bugs(table):
 
     return broken_data
 
+
 def check_title_list_for_type_bugs(title_list):
 
     for record in title_list:
@@ -48,6 +50,7 @@ def check_title_list_for_type_bugs(title_list):
             broken_data = True
 
     return broken_data
+
 
 def check_data_for_bugs(table, title_list):
 
@@ -63,7 +66,35 @@ def check_data_for_bugs(table, title_list):
     if not lists_length_equal:
         raise ValueError('Wrong amount of data is stored in table or title_list.')
 
+def highest_number_in_list(data):
+    temp_storage = []
 
+    for record in data:
+
+        highest_number = record[0]
+
+        for column in record:
+            if column > highest_number:
+                highest_number = column
+
+        temp_storage.append(highest_number)
+
+
+    return temp_storage
+
+
+def get_highest_value_per_column(sizes, records_amount_in_nested_list):
+    temp_storage = []
+
+    for i in range(records_amount_in_nested_list):
+        temp_storage.append([])
+
+    for record in sizes:
+        temp_storage[record[1]].append(record[0])
+
+    temp_storage = highest_number_in_list(temp_storage)
+
+    return temp_storage
 
 def get_columns_sizes(table, title_list):
     # wyciągnij filtry do głównego ciała i stwórz flage
@@ -73,16 +104,22 @@ def get_columns_sizes(table, title_list):
     table = convert_each_string_to_integer(table, records_amount_in_nested_list)
 
     # find longest strings in each nested list
-    for x in range(len(table)):
-        temp_value = table[x][0]
+    if len(table) > 1:
+        for x in range(len(table)):
+            temp_value = table[x][0]
+            index = 0
 
-        for y in range(records_amount_in_nested_list):
-            if temp_value < table[x][y]:
-                temp_value = table[x][y]
+            for y in range(records_amount_in_nested_list):
+                temp_value, index = table[x][y], y
+                columns_sizes.append([temp_value, index])
 
-        columns_sizes.append(temp_value)
+        columns_sizes = get_highest_value_per_column(columns_sizes, records_amount_in_nested_list)
+    else:
+        # get rid of nested list if just one list is inside table
+        columns_sizes = [record[i] for record in table for i in range(len(record))]
 
     temp_storage = []
+
     for i in range(len(columns_sizes)):
         if columns_sizes[i] > len(title_list[i]):
             temp_storage.append(columns_sizes[i])
@@ -94,11 +131,27 @@ def get_columns_sizes(table, title_list):
     return columns_sizes
 
 
-def get_rid_of_empty_columns(columns_width, title_list):
-    title_list = [title_list[i] for i in range(len(columns_width)) if columns_width[i] != 0]
-    columns_width = [length for length in columns_width if length != 0]
+def get_rid_of_empty_columns(table, title_list):
+    temp_storage = []
+    table_index_to_del = [i for row in table for i in range(len(row)) if len(row[i]) == 0]
+    title_index_to_del = set([i for i in range(len(title_list)) if len(title_list[i]) == 0])
 
-    return columns_width, title_list
+    for index in table_index_to_del:
+        if index not in temp_storage:
+            temp_storage.append(index)
+
+    table_index_to_del = set(temp_storage)
+    common_part = list(title_index_to_del & table_index_to_del)
+    common_part = common_part[::-1]
+
+    for record in common_part:
+        for j in range(len(table)):
+            del table[j][record]
+
+        del title_list[record]
+
+
+    return table, title_list
 
 def add_free_space_on_the_sides(columns_width):
     # added value must be ODD and higher or equal than 3
@@ -210,14 +263,14 @@ def print_table(table, title_list):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-
     RECORD_HEIGHT = 4
+    
     # filtry
     check_data_for_bugs(table, title_list)
+    table, title_list = get_rid_of_empty_columns(table, title_list)
 
     # get sizes
     columns_width = get_columns_sizes(table, title_list)
-    columns_width, title_list = get_rid_of_empty_columns(columns_width, title_list)
     columns_width = add_free_space_on_the_sides(columns_width)
     board_width = sum_numbers(columns_width)
     board_height = calculate_height(table, RECORD_HEIGHT)
@@ -337,8 +390,8 @@ def main():
     #print_menu('Tytul:', ['opcja1', 'opcja2', 'opcja3'], 'exit message')
 
     #----------------------------------------------------------------------Done
-    table = [['1234', '12345', '1234678'], ['2224', 'qsqs', 'qwqw12'], ['232', '1', '74444']]
-    title_list = ['ssa', 'zus', 'slonceeeeeee']
+    table = [['1234', '12345', '1234678','','',''], ['1234', '12345', '1234678','','','']]
+    title_list = ['ssa', 'zus', 'slonceeeeeee','','s','']
 
 
     print_table(table, title_list)
