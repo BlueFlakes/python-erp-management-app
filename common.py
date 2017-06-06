@@ -23,8 +23,22 @@ def generate_random(table):
 
     generated = ''
 
-    # your code
+    for times in range(0, 2):
+        chosen_number = random.randint(97, 122)
+        generated += chr(chosen_number)
 
+        chosen_number = random.randint(65, 90)
+        generated += chr(chosen_number)
+
+        chosen_number = random.randint(58, 64)
+        generated += chr(chosen_number)
+
+        chosen_number = random.randint(0, 9)
+        generated += str(chosen_number)
+
+    generated = ''.join(random.sample(generated, len(generated)))
+    print(list(generated))
+    print(len(generated))
     return generated
 
 
@@ -61,4 +75,3 @@ def get_average_year(years_list):
     average_year = sum_of_years / len(years_list)
 
     return average_year
-
