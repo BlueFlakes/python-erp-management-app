@@ -1,5 +1,197 @@
 
 
+def check_lists_length(table, title_list):
+    start_size = len(table[0])
+
+    for nested_list in table:
+        if len(nested_list) != start_size or len(title_list) != start_size:
+            is_length_equal = False
+        else:
+            is_length_equal = True
+
+    return is_length_equal
+
+def convert_each_string_to_integer(table, temp):
+    # get length of each string
+    table = [len(column) for row in table for column in row]
+    # pack values in smaller collections
+    table = [table[i-temp+1:i+1] for i in range(len(table)) if (i+1) % temp == 0]
+
+    return table
+
+def check_table_for_type_bugs(table):
+    broken_data = False
+
+    for row in table:
+        if type(row) == list and broken_data == False:
+            for column in row:
+                if type(column) == str:
+                    broken_data = False
+
+                else:
+                    broken_data = True
+                    break
+
+        else:
+            broken_data = True
+            break
+
+    return broken_data
+
+def check_title_list_for_type_bugs(title_list):
+
+    for record in title_list:
+        if type(record) == str:
+            broken_data = False
+
+        else:
+            broken_data = True
+
+    return broken_data
+
+def check_data_for_bugs(table, title_list):
+
+    if (not table) or (not title_list):
+        raise ValueError('Not enough data delivered.')
+
+    is_data_in_table_broken = check_table_for_type_bugs(table)
+    is_data_in_title_list_broken = check_title_list_for_type_bugs(title_list)
+    if is_data_in_table_broken or is_data_in_title_list_broken:
+        raise TypeError('Wrong types are stored in data.')
+
+    lists_length_equal = check_lists_length(table, title_list)
+    if not lists_length_equal:
+        raise ValueError('Wrong amount of data is stored in table or title_list.')
+
+
+
+def get_columns_sizes(table, title_list):
+    # wyciągnij filtry do głównego ciała i stwórz flage
+
+    columns_sizes = []
+    records_amount_in_nested_list = len(table[0])
+    table = convert_each_string_to_integer(table, records_amount_in_nested_list)
+
+    # find longest strings in each nested list
+    for x in range(len(table)):
+        temp_value = table[x][0]
+
+        for y in range(records_amount_in_nested_list):
+            if temp_value < table[x][y]:
+                temp_value = table[x][y]
+
+        columns_sizes.append(temp_value)
+
+    temp_storage = []
+    for i in range(len(columns_sizes)):
+        if columns_sizes[i] > len(title_list[i]):
+            temp_storage.append(columns_sizes[i])
+        else:
+            temp_storage.append(len(title_list[i]))
+
+    columns_sizes = temp_storage
+
+    return columns_sizes
+
+
+def get_rid_of_empty_columns(columns_width, title_list):
+    title_list = [title_list[i] for i in range(len(columns_width)) if columns_width[i] != 0]
+    columns_width = [length for length in columns_width if length != 0]
+
+    return columns_width, title_list
+
+def add_free_space_on_the_sides(columns_width):
+    # added value must be ODD and higher or equal than 3
+    columns_width = [column_length+3 for column_length in columns_width]
+
+    return columns_width
+
+def calculate_height(table, record_height):
+    rows_amount = (len(table) * record_height) + 1 + record_height
+
+    return rows_amount
+
+
+def sum_numbers(list_of_numbers):
+    sum_score = 0
+
+    for number in list_of_numbers:
+        sum_score += number
+
+    return sum_score
+
+def create_board(height, width, record_height, separators):
+    board = []
+    height = height
+    width = width+1
+
+    for y in range(height):
+        temp_storage = []
+
+        for x in range(width):
+            if y == 0 or y == (height-1):
+                temp_storage.append('-')
+            elif x == 0 or x in separators:
+                temp_storage.append('|')
+            elif (x > 0 and x < (width-1)) and y % record_height == 0:
+                temp_storage.append('-')
+            else:
+                temp_storage.append(' ')
+
+        board.append(temp_storage)
+
+    return board
+
+def print_board(board):
+
+    for row in board:
+        for column in row:
+            print(column, end='')
+
+        print()
+
+def insert_title(board, title_list, columns_width, column_separators):
+
+    for i in range(len(title_list)):
+        start_point = int((columns_width[i]-len(title_list[i]))/2) + column_separators[i] + 1
+
+        for j in range(len(title_list[i])):
+            board[2][start_point+j] = title_list[i][j]
+
+    return board
+
+def insert_table(board, table, columns_width, column_separators, record_height):
+    next_row = 0
+
+    for nested_list in table:
+        next_row += record_height
+
+        for i in range(len(nested_list)):
+            start_point = int((columns_width[i] - len(nested_list[i]))/2) + column_separators[i] + 1
+
+            for j in range(len(nested_list[i])):
+                board[2+next_row][j+start_point] = nested_list[i][j]
+
+    return board
+
+def insert_data_to_rows(board, table, title_list, columns_width, column_separators, record_height):
+    columns_width = [number-1 for number in columns_width]
+    column_separators.insert(0, 0)
+    del column_separators[-1]
+
+    board = insert_title(board, title_list, columns_width, column_separators)
+    board = insert_table(board, table, columns_width, column_separators, record_height)
+
+    return board
+
+def modify_corners(board):
+    board[0][0] = '/'
+    board[0][-1] = '\\'
+    board[-1][0] = '\\'
+    board[-1][-1] = '/'
+
+    return board
+
 def print_table(table, title_list):
     """
     Prints table with data. Sample output:
@@ -19,9 +211,31 @@ def print_table(table, title_list):
         This function doesn't return anything it only prints to console.
     """
 
-    # your goes code
+    RECORD_HEIGHT = 4
+    # filtry
+    check_data_for_bugs(table, title_list)
 
-    pass
+    # get sizes
+    columns_width = get_columns_sizes(table, title_list)
+    columns_width, title_list = get_rid_of_empty_columns(columns_width, title_list)
+    columns_width = add_free_space_on_the_sides(columns_width)
+    board_width = sum_numbers(columns_width)
+    board_height = calculate_height(table, RECORD_HEIGHT)
+    column_separators = [sum_numbers(columns_width[:i+1]) for i in range(len(columns_width))]
+
+    # create board
+    board = create_board(board_height, board_width, RECORD_HEIGHT, column_separators)
+
+    # insert board
+    board = insert_data_to_rows(board, table, title_list, columns_width, column_separators, RECORD_HEIGHT)
+    board = modify_corners(board)
+    # print board
+    print_board(board)
+
+
+
+
+
 
 
 def print_result(result, label):
@@ -120,8 +334,14 @@ def print_error_message(message):
 
 def main():
     #print(get_inputs(["Name","Surname","Age"],"Please provide your personal information"))
+    #print_menu('Tytul:', ['opcja1', 'opcja2', 'opcja3'], 'exit message')
 
-    print_menu('Tytul:', ['opcja1', 'opcja2', 'opcja3'], 'exit message')
+    #----------------------------------------------------------------------Done
+    table = [['1234', '12345', '1234678'], ['2224', 'qsqs', 'qwqw12'], ['232', '1', '74444']]
+    title_list = ['ssa', 'zus', 'slonceeeeeee']
+
+
+    print_table(table, title_list)
 
 
 
