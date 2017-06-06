@@ -49,7 +49,7 @@ def start_module():
         None
     """
 
-    table = data_manager.get_table_from_file('accounting/items.csv')
+    table = data_manager.get_table_from_file('store/store.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
                     "Count of games by manufacturer",

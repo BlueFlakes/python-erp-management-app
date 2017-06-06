@@ -49,7 +49,7 @@ def start_module():
         None
     """
 
-    table = data_manager.get_table_from_file('accounting/items.csv')
+    table = data_manager.get_table_from_file('crm/customers.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
                     "Year with the hightest profit", "Avarege profit in year"
