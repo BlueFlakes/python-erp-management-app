@@ -60,7 +60,7 @@ def start_module():
     option = float("inf")
     while not option == "0":
         ui.print_menu("Accounting manager", list_options, "Exit to Menu")
-        option = choose_option(table)
+        option, table = choose_option(table)
 
     data_manager.write_table_to_file('accounting/items.csv', table)
 
