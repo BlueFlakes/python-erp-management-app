@@ -114,10 +114,13 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
+    table, successful = common.remove_record(table, id_)
 
-    # your code
+    if not successful:
+        ui.print_error_message('Error!')
 
     return table
+
 
 
 def update(table, id_):

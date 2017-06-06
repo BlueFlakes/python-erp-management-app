@@ -109,7 +109,6 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
-
     table, successful = common.remove_record(table, id_)
 
     if not successful:
