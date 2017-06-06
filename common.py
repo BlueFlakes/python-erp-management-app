@@ -22,23 +22,29 @@ def generate_random(table):
     """
 
     generated = ''
+    unique_id = False
 
-    for times in range(0, 2):
-        chosen_number = random.randint(97, 122)
-        generated += chr(chosen_number)
+    while unique_id is False:
+        unique_id = True
+        for times in range(0, 2):
+            chosen_number = random.randint(97, 122)
+            generated += chr(chosen_number)
 
-        chosen_number = random.randint(65, 90)
-        generated += chr(chosen_number)
+            chosen_number = random.randint(65, 90)
+            generated += chr(chosen_number)
 
-        chosen_number = random.randint(58, 64)
-        generated += chr(chosen_number)
+            chosen_number = random.randint(58, 64)
+            generated += chr(chosen_number)
 
-        chosen_number = random.randint(0, 9)
-        generated += str(chosen_number)
+            chosen_number = random.randint(0, 9)
+            generated += str(chosen_number)
 
-    generated = ''.join(random.sample(generated, len(generated)))
-    print(list(generated))
-    print(len(generated))
+        generated = ''.join(random.sample(generated, len(generated)))
+
+        for i in table:
+            if generated in table[i]:
+                unique_id = False
+
     return generated
 
 
