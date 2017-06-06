@@ -37,6 +37,8 @@ def choose_option(table):
         get_average_durability_by_manufacturers(table)
         # get_inputs(list_labels, title)
 
+    return option
+
 
 def start_module():
     """
@@ -48,15 +50,16 @@ def start_module():
         None
     """
 
-    table = data_manager.get_table_from_file('inventory/invnetory.csv')
+    table = data_manager.get_table_from_file('inventory/inventory.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
                     "Available items", "Avarege durability by manufacturers"
                     ]
 
-    ui.print_menu("Inventory manager", list_options, "Exit to Menu")
-
-    choose_option(table)
+    option = float("inf")
+    while not option == "0":
+        ui.print_menu("Inventory manager", list_options, "Exit to Menu")
+        option = choose_option(table)
 
 
 def show_table(table):

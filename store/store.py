@@ -36,6 +36,8 @@ def choose_option(table):
         get_average_by_manufacturer(table, manufacturer)
         # get_inputs(list_labels, title)
 
+    return option
+
 
 def start_module():
     """
@@ -54,9 +56,10 @@ def start_module():
                     "Avarege amount of games in stock by manufacturer"
                     ]
 
-    ui.print_menu("Store manager", list_options, "Exit to Menu")
-
-    choose_option(table)
+    option = float("inf")
+    while not option == "0":
+        ui.print_menu("Store manager", list_options, "Exit to Menu")
+        option = choose_option(table)
 
 
 def show_table(table):

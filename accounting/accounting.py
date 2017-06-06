@@ -38,6 +38,8 @@ def choose_option(table):
         avg_amount(table, year)
         # get_inputs(list_labels, title)
 
+    return option
+
 
 def start_module():
     """
@@ -55,9 +57,10 @@ def start_module():
                     "Year with the hightest profit", "Avarege profit in year"
                     ]
 
-    ui.print_menu("Accounting manager", list_options, "Exit to Menu")
-
-    choose_option(table)
+    option = float("inf")
+    while not option == "0":
+        ui.print_menu("Accounting manager", list_options, "Exit to Menu")
+        option = choose_option(table)
 
 
 def show_table(table):

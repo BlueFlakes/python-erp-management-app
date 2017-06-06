@@ -33,10 +33,12 @@ def choose_option(table):
         # id_ = get_inputs(list_labels, title)
         update(table, id_)
     elif option == "5":
-        which_year_max(table)
+        get_lowest_price_item_id(table)
     elif option == "6":
-        avg_amount(table, year)
+        get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
         # get_inputs(list_labels, title)
+
+    return option
 
 
 def start_module():
@@ -55,9 +57,10 @@ def start_module():
                     "Year with the hightest profit", "Avarege profit in year"
                     ]
 
-    ui.print_menu("Accounting manager", list_options, "Exit to Menu")
-
-    choose_option(table)
+    option = float("inf")
+    while not option == "0":
+        ui.print_menu("Accounting manager", list_options, "Exit to Menu")
+        option = choose_option(table)
 
 
 def show_table(table):
@@ -75,6 +78,7 @@ def show_table(table):
     title_list = ["id", "month", "day", "year", "incom / outcome", "amount (dollars)"]
 
     ui.print_table(table, title_list)
+
 
 def add(table):
     """
