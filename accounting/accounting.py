@@ -18,6 +18,27 @@ import data_manager
 import common
 
 
+def choose_option(table):
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        # id_ = get_inputs(list_labels, title)
+        remove(table, id_)
+    elif option == "4":
+        # id_ = get_inputs(list_labels, title)
+        update(table, id_)
+    elif option == "5":
+        which_year_max(table)
+    elif option == "6":
+        avg_amount(table, year)
+        # get_inputs(list_labels, title)
+
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -28,9 +49,22 @@ def start_module():
         None
     """
 
-    # you code
+    table = data_manager.get_table_from_file('accounting/items.csv')
 
-    pass
+    list_options = ["Show table", "Add", "Remove", "Update",
+                    "Year with the hightest profit", "Avarege profit in year"
+                    ]
+
+    ui.print_menu("Accounting manager", list_options, "Exit to Menu")
+
+    choose_option(table)
+
+
+
+
+
+    # inputs about id to another custom function?
+    # where put read form .csv (here or not here)
 
 
 def show_table(table):
@@ -44,9 +78,9 @@ def show_table(table):
         None
     """
 
-    # your code
+    title_list = ["id", "month", "day", "year", "incom / outcome", "amount (dollars)"]
 
-    pass
+    ui.print_table(table, title_list)
 
 
 def add(table):

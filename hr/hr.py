@@ -15,6 +15,27 @@ import data_manager
 import common
 
 
+def choose_option(table):
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        # id_ = get_inputs(list_labels, title)
+        remove(table, id_)
+    elif option == "4":
+        # id_ = get_inputs(list_labels, title)
+        update(table, id_)
+    elif option == "5":
+        which_year_max(table)
+    elif option == "6":
+        avg_amount(table, year)
+        # get_inputs(list_labels, title)
+
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -32,13 +53,8 @@ def start_module():
     ui.print_menu("Human resources: ", options_list, "Exit to menu")
 
     table = data_manager.get_table_from_file("hr/persons.csv")
-    print(table)
 
-    lol = input("x")
-    if lol == "x":
-        get_oldest_person(table)
-    elif lol == "y":
-        get_persons_closest_to_average(table)
+    choose_option(table)
 
 
 def show_table(table):
@@ -51,10 +67,10 @@ def show_table(table):
     Returns:
         None
     """
+    # chane list content
+    title_list = ["id", "month", "day", "year", "incom / outcome", "amount (dollars)"]
 
-    # your code
-
-    pass
+    ui.print_table(table, title_list)
 
 
 def add(table):
@@ -115,7 +131,7 @@ def update(table, id_):
 def get_oldest_person(table):
 
     years_list = [int(table[i][2]) for i in range(len(table))]
-    sorted_years_list = insertion_sort(years_list)
+    sorted_years_list = common.insertion_sort(years_list)
     oldest_people = [table[i][1] for i in range(len(table)) if int(table[i][2]) == sorted_years_list[0]]
 
     print(oldest_people)
@@ -127,7 +143,7 @@ def get_oldest_person(table):
 def get_persons_closest_to_average(table):
 
     years_list = [int(table[i][2]) for i in range(len(table))]
-    average_year = get_average_year(years_list)
+    average_year = common.get_average_year(years_list)
 
     print(average_year)
 
@@ -143,36 +159,4 @@ def get_persons_closest_to_average(table):
     print(closest_people)
     return closest_people
 
-
-def insertion_sort(numbers):
-    """
-    Parameters
-    ----------
-    numbers : list of int
-
-    Returns
-    -------
-    list of int
-        Sorted numbers list.
-    """
-
-    for i in range(1, len(numbers)):
-        value = numbers[i]
-        previous_index = i - 1
-        while (previous_index >= 0) and (numbers[previous_index] > value):
-            numbers[previous_index + 1] = numbers[previous_index]
-            previous_index = previous_index - 1
-        numbers[previous_index + 1] = value
-
-    return numbers
-
-
-def get_average_year(years_list):
-    sum_of_years = 0
-    for year in years_list:
-        sum_of_years += year
-
-    average_year = sum_of_years / len(years_list)
-
-    return average_year
 

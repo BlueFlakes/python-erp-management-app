@@ -26,3 +26,39 @@ def generate_random(table):
     # your code
 
     return generated
+
+
+def insertion_sort(numbers):
+    """
+    Parameters
+    ----------
+    numbers : list of int
+
+    Returns
+    -------
+    list of int
+        Sorted numbers list.
+    """
+
+    for i in range(1, len(numbers)):
+        value = numbers[i]
+        previous_index = i - 1
+        while (previous_index >= 0) and (numbers[previous_index] > value):
+            numbers[previous_index + 1] = numbers[previous_index]
+            previous_index = previous_index - 1
+        numbers[previous_index + 1] = value
+
+    return numbers
+
+
+
+def get_average_year(years_list):
+    # from hr module
+    sum_of_years = 0
+    for year in years_list:
+        sum_of_years += year
+
+    average_year = sum_of_years / len(years_list)
+
+    return average_year
+
