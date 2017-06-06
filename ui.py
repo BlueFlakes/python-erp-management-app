@@ -245,6 +245,19 @@ def modify_corners(board):
 
     return board
 
+
+def print_list_elements(results):
+
+    for i in range(len(results)):
+        print("{} {}. {}".format('\t', str(i+1), results[i]))
+
+
+def print_dict_elements(results):
+
+    for key, value in results.items():
+        print('{}{} : {}'.format('\t', key.capitalize(), value))
+
+
 def print_table(table, title_list):
     """
     Prints table with data. Sample output:
@@ -264,7 +277,7 @@ def print_table(table, title_list):
         This function doesn't return anything it only prints to console.
     """
     RECORD_HEIGHT = 4
-    
+
     # filtry
     check_data_for_bugs(table, title_list)
     table, title_list = get_rid_of_empty_columns(table, title_list)
@@ -302,10 +315,13 @@ def print_result(result, label):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-
-    # your code
-
-    pass
+    print(label)
+    if type(result) == list:
+        print_list_elements(result)
+    elif type(result) == dict:
+        print_dict_elements(result)
+    elif type(result) = str:
+        print(result)
 
 
 def print_menu(title, list_options, exit_message):
@@ -390,13 +406,13 @@ def main():
     #print_menu('Tytul:', ['opcja1', 'opcja2', 'opcja3'], 'exit message')
 
     #----------------------------------------------------------------------Done
-    table = [['1234', '12345', '1234678','','',''], ['1234', '12345', '1234678','','','']]
-    title_list = ['ssa', 'zus', 'slonceeeeeee','','s','']
+    #table = [['1234', '12345', '1234678','','',''], ['1234', '12345', '1234678','','','']]
+    #title_list = ['ssa', 'zus', 'slonceeeeeee','','s','']
 
 
-    print_table(table, title_list)
-
-
+    #print_table(table, title_list)
+    #----------------------------------------------------------------------Done
+    print_result({'kamil': 1000, 'Marcin': 230203, 'kuba': 12121}, 'takietam')
 
 
 
