@@ -396,10 +396,8 @@ def print_error_message(message):
     Returns:
         This function doesn't return anything it only prints to console.
     """
+    print(message)
 
-    # your code
-
-    pass
 
 def main():
     #print(get_inputs(["Name","Surname","Age"],"Please provide your personal information"))
