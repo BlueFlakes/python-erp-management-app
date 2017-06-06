@@ -33,7 +33,7 @@ def generate_random(table):
             chosen_number = random.randint(65, 90)
             generated += chr(chosen_number)
 
-            chosen_number = random.randint(58, 64)
+            chosen_number = random.randint(33, 47)
             generated += chr(chosen_number)
 
             chosen_number = random.randint(0, 9)
