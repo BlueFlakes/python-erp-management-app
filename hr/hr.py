@@ -110,11 +110,10 @@ def remove(table, id_):
         Table without specified record.
     """
 
-    for i in range(len(table)):
-        if id_ == table[i][0]:
-            index_to_remove = i
+    table, successful = common.remove_record(table, id_)
 
-    del table[index_to_remove]
+    if not successful:
+        ui.print_error_message('Error!')
 
     return table
 
