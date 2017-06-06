@@ -62,7 +62,7 @@ def start_module():
         ui.print_menu("Sales manager", list_options, "Exit to Menu")
         option, table = choose_option(table)
 
-    data_manager.write_table_to_file('accounting/items.csv', table)
+    data_manager.write_table_to_file('sales/sales.csv', table)
 
 
 def show_table(table):
