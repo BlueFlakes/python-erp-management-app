@@ -207,6 +207,5 @@ def avg_amount(table, year):
                 profit -= int(table[i][5])
 
     avrg_profit_per_item = profit / items
-    avrg_profit_per_item = str(avrg_profit_per_item)
 
     return avrg_profit_per_item

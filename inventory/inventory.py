@@ -33,9 +33,10 @@ def choose_option(table):
         table = update(table, id_)
     elif option == "5":
         result = get_available_items(table)
-        ui.print_result(result, "Item that not exceed theri durability: ")
+        ui.print_result(result, "Item that not exceed their durability: ")
     elif option == "6":
-        ui.get_average_durability_by_manufacturers(table)
+        result = get_average_durability_by_manufacturers(table)
+        ui.print_result(result, "Average durability itmes for each manufacturer: ")
 
     return option, table
 
@@ -178,11 +179,26 @@ def creat_list_manufacturers(table):
 # @table: list of lists
 def get_average_durability_by_manufacturers(table):
 
+    avrg_durability = []
     manufacturers_dict = {}
-    for item in table:
-        if item[2] in manufacturers_dict.keys():
-            manufacturers_dict[item[2]] += 1
-        else:
-            manufacturers_dict[item[2]] = 1
+    items = 0
+    durability = 0
+    average = 0
+
+    uniqe_manufacturers = creat_list_manufacturers(table)
+
+    for j in range(len(uniqe_manufacturers)):
+        durability = 0
+        items = 0
+        for i in range(len(table)):
+            if uniqe_manufacturers[j] == table[i][2]:
+                items += 1
+                durability += int(table[i][4])
+        average = durability / items
+        avrg_durability.append((uniqe_manufacturers[j], average))
+
+    for item in avrg_durability:
+        manufacturers_dict[item[0]] = item[1]
 
     return manufacturers_dict
+
