@@ -185,8 +185,9 @@ def get_lowest_price_item_id(table):
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
 
     sold_items = []
+    temp_table = [x[:] for x in table]
 
-    for item in table:
+    for item in temp_table:
         game_year = int(item[5])
         game_month = int(item[3])
         game_day = int(item[4])
@@ -212,12 +213,11 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
                 elif game_month == month_to:
                     if game_day < day_to:
                         sold_items.append(item)
-    print(sold_items)
 
-    for i in sold_items:
-        i[2] = int(i[2])
-        i[3] = int(i[3])
-        i[4] = int(i[4])
-        i[5] = int(i[5])
+    for item in sold_items:
+        item[2] = int(item[2])
+        item[3] = int(item[3])
+        item[4] = int(item[4])
+        item[5] = int(item[5])
 
     return sold_items

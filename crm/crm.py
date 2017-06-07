@@ -124,11 +124,11 @@ def get_correct_type(user_input, answers_types, i):
         if user_input.isdigit():
             user_input = int(user_input)
         else:
-            print("Wrong value provided.\n")
+            ui.print_result("", 'Wrong value provided.')
 
     elif answers_types[i] == str:
         if user_input.lower() not in ['in', 'out']:
-            print("Wrong value provided.\n")
+            ui.print_result("", 'Wrong value provided.')
             user_input = None
         else:
             user_input = user_input.lower()

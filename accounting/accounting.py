@@ -156,11 +156,11 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_):
             user_input = get_correct_type(user_input, answers_types, i)
             if i == 0:
                 if user_input < 1 or user_input > 12:
-                    print('Not possible value for months')
+                    ui.print_result("", 'Not possible value for months')
                     user_input = None
             if i == 1:
                 if user_input < 1 or user_input > 31:
-                    print('Not possible value for days')
+                    ui.print_result("", 'Not possible value for months')
                     user_input = None
 
         user_data.append(user_input)
