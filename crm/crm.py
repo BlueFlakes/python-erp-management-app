@@ -28,8 +28,7 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to remove")[0]
         table = remove(table, id_)
     elif option == "4":
-        id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
-        table = update(table, id_)
+        table = update(table)
     elif option == "5":
         ui.print_result(get_longest_name_id(table), 'The Id of customer with longest name:')
     elif option == "6":
@@ -72,9 +71,7 @@ def show_table(table):
     Returns:
         None
     """
-
     title_list = ["id", "name", "email", "subscribe newsletter"]
-
     ui.print_table(table, title_list)
 
 
@@ -121,7 +118,7 @@ def remove(table, id_):
     return table
 
 
-def update(table, id_):
+def update(table):
     """
     Updates specified record in the table. Ask users for new data.
 
@@ -132,8 +129,17 @@ def update(table, id_):
     Returns:
         table with updated record
     """
+    user_input = ''
+    list_options = ['Modify record', 'Modify cell']
+    questions = ['Name', 'E-mail', 'Subs newsletter']
 
-    # your code
+    ui.print_menu('Possible orders:', list_options, "Exit to Menu")
+    user_input = ui.get_inputs([''], '')
+
+    if user_input == ['1']:
+        user_data = ui.get_inputs(questions, 'Please provide data:')
+    else:
+        ui.print_error_message('This option does not exist.')
 
     return table
 
@@ -160,9 +166,7 @@ def get_longest_name_id(table):
                 if names_data[row_number][0].upper() == chr(alpha):
                     alphabetical_array[alpha-65].extend([[names_data[row_number], row_number]])
 
-        descending_alpha_array = alphabetical_array[::-1]
-
-        for first_name in descending_alpha_array:
+        for first_name in alphabetical_array:
             if first_name:
                 id_to_return = id_data[first_name[0][1]]
                 break
