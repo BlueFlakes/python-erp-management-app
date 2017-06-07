@@ -33,10 +33,12 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         table = update(table, id_)
     elif option == "5":
-        which_year_max(table)
+        result = which_year_max(table)
+        ui.print_result(result, "The year with the hightest profit is: ")
     elif option == "6":
-        year = get_inputs(["Year"], "Please provide year for which you want to see profit")[0]
-        avg_amount(table, year)
+        year = ui.get_inputs(["Year"], "Please provide year for which you want to see profit")[0]
+        result = avg_amount(table, year)
+        ui.print_result(result, "The Avarage profit per item in {} is: ".format(year))
 
     return option, table
 
@@ -140,6 +142,32 @@ def update(table, id_):
     return table
 
 
+def creat_list_uniqe_years(table):
+    uniqe_year = []
+
+    for i in range(len(table)):
+        if table[i][3] not in uniqe_year:
+            uniqe_year.append(table[i][3])
+
+    return uniqe_year
+
+
+def make_list_profit_year(uniqe_year, table):
+    profit_list = []
+
+    for j in range(len(uniqe_year)):
+        profit = 0
+        for i in range(len(table)):
+            if uniqe_year[j] == table[i][3]:
+                if table[i][4] == "in":
+                    profit += int(table[i][5])
+                elif table[i][4] == "out":
+                    profit -= int(table[i][5])
+        profit_list.append((profit, uniqe_year[j]))
+
+    return profit_list
+
+
 # special functions:
 # ------------------
 
@@ -147,15 +175,37 @@ def update(table, id_):
 # return the answer (number)
 def which_year_max(table):
 
-    # your code
+    uniqe_year = creat_list_uniqe_years(table)
+    profit_list = make_list_profit_year(uniqe_year, table)
 
-    pass
+    year_highest_profit = 0
+    for i in range(1, len(profit_list)):
+        if profit_list[i][0] > profit_list[i - 1][0]:
+            year_highest_profit = profit_list[i]
+        else:
+            year_highest_profit = profit_list[i - 1]
+
+    year_highest_profit = str(year_highest_profit[1])
+
+    return year_highest_profit
 
 
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
 # return the answer (number)
 def avg_amount(table, year):
 
-    # your code
+    profit = 0
+    items = 0
 
-    pass
+    for i in range(len(table)):
+        if year == table[i][3]:
+            items += 1
+            if table[i][4] == "in":
+                profit += int(table[i][5])
+            elif table[i][4] == "out":
+                profit -= int(table[i][5])
+
+    avrg_profit_per_item = profit / items
+    avrg_profit_per_item = str(avrg_profit_per_item)
+
+    return avrg_profit_per_item
