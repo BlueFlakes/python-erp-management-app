@@ -28,7 +28,8 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to remove")[0]
         table = remove(table, id_)
     elif option == "4":
-        table = update(table)
+        id_ = ui.get_inputs(["Id"], "Please provide record id, which you want to change")[0]
+        table = update(table, id_)
     elif option == "5":
         ui.print_result(get_longest_name_id(table), 'The Id of customer with longest name:')
     elif option == "6":
@@ -117,8 +118,46 @@ def remove(table, id_):
 
     return table
 
+#-----------------------------------------------------------------------------#
+def get_correct_type(user_input, answers_types, i):
+    if answers_types[i] == int:
+        if user_input.isdigit():
+            user_input = int(user_input)
+        else:
+            print("Wrong value provided.\n")
 
-def update(table):
+    elif answers_types[i] == str:
+        if user_input.lower() not in ['in', 'out']:
+            print("Wrong value provided.\n")
+            user_input = None
+        else:
+            user_input = user_input.lower()
+
+    return user_input
+
+
+
+def get_data_for_update(table, questions, answers_types, id_storage, id_):
+    user_data = []
+
+    for i in range(len(questions)):
+        user_input = None
+
+        while type(user_input) != answers_types[i]:
+            user_input = ui.get_inputs(questions[i], '')
+            user_input = get_correct_type(user_input, answers_types, i)
+
+        user_data.append(user_input)
+
+    user_data.insert(0, id_)
+    user_data = [str(record) for record in user_data]
+    row_number = common.get_item_row(id_storage, id_)
+    table[row_number] = user_data
+
+    return table, row_number
+
+
+def update(table, id_):
     """
     Updates specified record in the table. Ask users for new data.
 
@@ -129,15 +168,28 @@ def update(table):
     Returns:
         table with updated record
     """
-    user_input = ''
-    list_options = ['Modify record', 'Modify cell']
-    questions = ['Name', 'E-mail', 'Subs newsletter']
 
-    ui.print_menu('Possible orders:', list_options, "Exit to Menu")
-    user_input = ui.get_inputs([''], '')
+    id_storage = common.get_values_from_column(table, 0)
+    if id_ in id_storage:
+        # Here u can make changes:
 
-    if user_input == ['1']:
-        user_data = ui.get_inputs(questions, 'Please provide data:')
+        list_options = ['Modify record']
+        questions = ['Name', 'E-mail', 'Subs newsletter']
+        answers_types = [str, str, int]
+
+        #---------------------------------------------------------------------#
+
+        ui.print_menu('Possible orders:', list_options, "Exit to Menu")
+        user_input = ui.get_inputs('', '')
+        if user_input == '1':
+            table, row = get_data_for_update(table, questions, answers_types, id_storage, id_)
+
+        # Individual differences between files ADD HERE \/
+        if table[row][3] != '0':
+            table[row][3] = '1'
+        else:
+            table[row][3] = '0'
+
     else:
         ui.print_error_message('This option does not exist.')
 

@@ -48,7 +48,7 @@ def generate_random(table):
     return generated
 
 
-def insertion_sort(numbers):
+def insertion_sorting(numbers):
     """
     Parameters
     ----------
@@ -85,6 +85,7 @@ def get_average_year(years_list):
 
 def get_values_from_column(table, column_number, items_types='str'):
     temp_storage = []
+    digits = [i for i in range(0,10)]
 
     for i in range(len(table[0])):
         temp_storage.append([])
@@ -93,7 +94,11 @@ def get_values_from_column(table, column_number, items_types='str'):
             temp_storage[i].append(table[j][i])
 
     if items_types == 'int':
-        temp_storage[column_number] = [int(number) for number in temp_storage[column_number]]
+        try:
+            temp_storage[column_number] = [int(number) for number in temp_storage[column_number]]
+
+        except:
+            raise ValueError('Conversion is impossible, wrong data types have been provided.')
 
     return temp_storage[column_number]
 
@@ -130,20 +135,25 @@ def find_longest_string_in_list(list_of_names, return_row_number=False):
 
     return longest
 
+def get_item_row(table, item):
+    row_number = None
+
+    for i in range(len(table)):
+        if item == table[i]:
+            row_number = i
+            break
+
+    return row_number
+
 
 def remove_record(table, id_):
     id_storage = get_values_from_column(table, 0)
 
     records_amount = len(id_storage)
-    rows_to_del = None
+    rows_to_del = get_item_row(id_storage, id_)
 
-    for i in range(records_amount):
-        if id_ == id_storage[i]:
-            rows_to_del = i
-            break
-
-    if rows_to_del:
-        del table[i]
+    if rows_to_del != None:
+        del table[rows_to_del]
         successful = True
 
     else:

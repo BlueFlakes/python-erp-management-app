@@ -368,12 +368,17 @@ def get_inputs(list_labels, title):
         List of data given by the user. Sample return:
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
-    inputs = []
-    print(title)
+    if type(list_labels) == list:
+        print(title)
+        inputs = []
 
-    for question in list_labels:
-        user_input = input(question + ": ")
-        inputs.append(user_input)
+        for question in list_labels:
+            user_input = input(question + ": ")
+            inputs.append(user_input)
+
+    elif type(list_labels) == str:
+        user_input = input(list_labels+':')
+        inputs = user_input
 
     return inputs
 
