@@ -35,7 +35,8 @@ def choose_option(table):
     elif option == "6":
         manufacturer = ui.get_inputs(["Manufacturer"], "Please provide manufacturer which" +
                                      "amonunt of games you want see")[0]
-        get_average_by_manufacturer(table, manufacturer)
+        result = get_average_by_manufacturer(table, manufacturer)
+        ui.print_result(result, "The avarage amount of games in stoc by {} is: ".format(manufacturer))
 
     return option, table
 
@@ -167,6 +168,6 @@ def get_average_by_manufacturer(table, manufacturer):
             manufacturer_apperance += 1
 
     avrg_games_by_manufacturer = games / manufacturer_apperance
-    print(avrg_games_by_manufacturer)
+
     return avrg_games_by_manufacturer
 
