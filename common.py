@@ -146,24 +146,6 @@ def get_item_row(table, item):
     return row_number
 
 
-def get_correct_type(user_input, answers_types, i):
-    if answers_types[i] == int:
-        try:
-            user_input = int(user_input)
-
-        except ValueError:
-            print("Wrong value provided.\n")
-
-    elif answers_types[i] == float:
-        try:
-            user_input = float(user_input)
-
-        except ValueError:
-            print("Wrong value provided.\n")
-
-    return user_input
-
-
 def remove_record(table, id_):
     id_storage = get_values_from_column(table, 0)
 

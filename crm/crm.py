@@ -119,6 +119,23 @@ def remove(table, id_):
     return table
 
 #-----------------------------------------------------------------------------#
+def get_correct_type(user_input, answers_types, i):
+    if answers_types[i] == int:
+        if user_input.isdigit():
+            user_input = int(user_input)
+        else:
+            print("Wrong value provided.\n")
+
+    elif answers_types[i] == str:
+        if user_input.lower() not in ['in', 'out']:
+            print("Wrong value provided.\n")
+            user_input = None
+        else:
+            user_input = user_input.lower()
+
+    return user_input
+
+
 
 def get_data_for_update(table, questions, answers_types, id_storage, id_):
     user_data = []
@@ -128,7 +145,7 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_):
 
         while type(user_input) != answers_types[i]:
             user_input = ui.get_inputs(questions[i], '')
-            user_input = common.get_correct_type(user_input, answers_types, i)
+            user_input = get_correct_type(user_input, answers_types, i)
 
         user_data.append(user_input)
 
