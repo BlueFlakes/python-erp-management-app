@@ -156,9 +156,20 @@ def get_available_items(table):
         purchase_date = int(table[index][3])
         years_from_purchase = CURRENT_YEAR - purchase_date
         if years_from_purchase <= int(table[index][4]):
-            list_items.append(table[index])
+            list_items.append([table[index][0], table[index][1], table[index][2],
+                              int(table[index][3]), int(table[index][4])])
 
     return list_items
+
+
+def creat_list_manufacturers(table):
+    uniqe_manufacturers = []
+
+    for i in range(len(table)):
+        if table[i][2] not in uniqe_manufacturers:
+            uniqe_manufacturers.append(table[i][2])
+
+    return uniqe_manufacturers
 
 
 # the question: What are the average durability itmes for each manufacturer?
@@ -167,6 +178,11 @@ def get_available_items(table):
 # @table: list of lists
 def get_average_durability_by_manufacturers(table):
 
-    # your code
+    manufacturers_dict = {}
+    for item in table:
+        if item[2] in manufacturers_dict.keys():
+            manufacturers_dict[item[2]] += 1
+        else:
+            manufacturers_dict[item[2]] = 1
 
-    pass
+    return manufacturers_dict
