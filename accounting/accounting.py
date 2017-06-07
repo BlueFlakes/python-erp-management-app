@@ -39,6 +39,7 @@ def choose_option(table):
     elif option == "6":
         year = ui.get_inputs(["Year"], "Please provide year for which you want to see profit")[0]
         result = avg_amount(table, year)
+        result = str(result)
         ui.print_result(result, "The Avarage profit per item in {} is: ".format(year))
 
     return option, table
@@ -195,11 +196,12 @@ def which_year_max(table):
 # return the answer (number)
 def avg_amount(table, year):
 
-    profit = 0
     items = 0
+    profit = 0
 
     for i in range(len(table)):
-        if year == table[i][3]:
+
+        if int(year) == int(table[i][3]):
             items += 1
             if table[i][4] == "in":
                 profit += int(table[i][5])
