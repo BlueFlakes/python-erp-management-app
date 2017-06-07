@@ -83,7 +83,7 @@ def get_average_year(years_list):
     return average_year
 
 
-def get_values_from_column(table, column_number):
+def get_values_from_column(table, column_number, items_types='str'):
     temp_storage = []
 
     for i in range(len(table[0])):
@@ -91,6 +91,9 @@ def get_values_from_column(table, column_number):
 
         for j in range(len(table)):
             temp_storage[i].append(table[j][i])
+
+    if items_types == 'int':
+        temp_storage[column_number] = [int(number) for number in temp_storage[column_number]]
 
     return temp_storage[column_number]
 
@@ -147,4 +150,6 @@ def remove_record(table, id_):
         successful = False
 
     return table, successful
+
+
 #
