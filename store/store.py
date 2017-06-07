@@ -31,10 +31,11 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         table = update(table, id_)
     elif option == "5":
-        get_counts_by_manufacturers(table)
+        result = get_counts_by_manufacturers(table)
+        ui.print_result(result, "Each manufacturer have created")
     elif option == "6":
         manufacturer = ui.get_inputs(["Manufacturer"], "Please provide manufacturer which" +
-                                     "amonunt of games you want see")[0]
+                                     "amount of games you want see")[0]
         result = get_average_by_manufacturer(table, manufacturer)
         ui.print_result(result, "The avarage amount of games in stoc by {} is: ".format(manufacturer))
 
@@ -149,9 +150,14 @@ def update(table, id_):
 # return type: a dictionary with this structure: { [manufacturer] : [count] }
 def get_counts_by_manufacturers(table):
 
-    # your code
+    manufacturers_dict = {}
+    for item in table:
+        if item[2] in manufacturers_dict.keys():
+            manufacturers_dict[item[2]] += 1
+        else:
+            manufacturers_dict[item[2]] = 1
 
-    pass
+    return manufacturers_dict
 
 
 # the question: What is the average amount of games in stock of a given manufacturer?
@@ -169,5 +175,4 @@ def get_average_by_manufacturer(table, manufacturer):
 
     avrg_games_by_manufacturer = games / manufacturer_apperance
 
-    return avrg_games_by_manufacturer
-
+    return str(avrg_games_by_manufacturer)
