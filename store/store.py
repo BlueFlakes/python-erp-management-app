@@ -33,9 +33,9 @@ def choose_option(table):
     elif option == "5":
         get_counts_by_manufacturers(table)
     elif option == "6":
+        manufacturer = ui.get_inputs(["Manufacturer"], "Please provide manufacturer which" +
+                                     "amonunt of games you want see")[0]
         get_average_by_manufacturer(table, manufacturer)
-        manufacturer = get_inputs(["Manufacturer"], "Please provide manufacturer which" +
-                                  "amonunt of games you want see")[0]
 
     return option, table
 
@@ -50,7 +50,7 @@ def start_module():
         None
     """
 
-    table = data_manager.get_table_from_file('store/store.csv')
+    table = data_manager.get_table_from_file('store/games.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
                     "Count of games by manufacturer",
@@ -62,7 +62,7 @@ def start_module():
         ui.print_menu("Store manager", list_options, "Exit to Menu")
         option, table = choose_option(table)
 
-    data_manager.write_table_to_file('store/store.csv', table)
+    data_manager.write_table_to_file('store/games.csv', table)
 
 
 def show_table(table):
@@ -155,6 +155,16 @@ def get_counts_by_manufacturers(table):
 # return type: number
 def get_average_by_manufacturer(table, manufacturer):
 
-    # your code
+    # maybe to common
+    games = 0
+    manufacturer_apperance = 0
 
-    pass
+    for i in range(len(table)):
+        if manufacturer.lower() == table[i][2].lower():
+            games += int(table[i][-1])
+            manufacturer_apperance += 1
+
+    avrg_games_by_manufacturer = games / manufacturer_apperance
+    print(avrg_games_by_manufacturer)
+    return avrg_games_by_manufacturer
+

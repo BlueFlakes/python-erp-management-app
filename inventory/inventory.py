@@ -32,9 +32,9 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         table = update(table, id_)
     elif option == "5":
-        get_available_items(table)
+        ui.get_available_items(table)
     elif option == "6":
-        get_average_durability_by_manufacturers(table)
+        ui.get_average_durability_by_manufacturers(table)
 
     return option, table
 
