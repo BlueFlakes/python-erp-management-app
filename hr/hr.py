@@ -142,7 +142,7 @@ def update(table, id_):
 def get_oldest_person(table):
 
     years_list = common.get_values_from_column(table, 2, "int")
-    sorted_years_list = common.insertion_sort(years_list)
+    sorted_years_list = common.insertion_sorting(years_list)
     oldest_people = [table[i][1] for i in range(len(table)) if int(table[i][2]) == sorted_years_list[0]]
 
     return oldest_people
