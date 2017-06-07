@@ -32,7 +32,8 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         table = update(table, id_)
     elif option == "5":
-        ui.get_available_items(table)
+        result = get_available_items(table)
+        ui.print_result(result, "Item that not exceed theri durability: ")
     elif option == "6":
         ui.get_average_durability_by_manufacturers(table)
 
@@ -148,10 +149,16 @@ def update(table, id_):
 #
 # @table: list of lists
 def get_available_items(table):
+    CURRENT_YEAR = 2017
+    list_items = []
 
-    # your code
+    for index in range(len(table)):
+        purchase_date = int(table[index][3])
+        years_from_purchase = CURRENT_YEAR - purchase_date
+        if years_from_purchase <= int(table[index][4]):
+            list_items.append(table[index])
 
-    pass
+    return list_items
 
 
 # the question: What are the average durability itmes for each manufacturer?
