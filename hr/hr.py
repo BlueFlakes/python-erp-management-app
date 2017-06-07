@@ -141,7 +141,7 @@ def update(table, id_):
 # return type: list of strings (name or names if there are two more with the same value)
 def get_oldest_person(table):
 
-    years_list = [int(table[i][2]) for i in range(len(table))]
+    years_list = common.get_values_from_column(table, 2, "int")
     sorted_years_list = common.insertion_sort(years_list)
     oldest_people = [table[i][1] for i in range(len(table)) if int(table[i][2]) == sorted_years_list[0]]
 
@@ -152,7 +152,7 @@ def get_oldest_person(table):
 # return type: list of strings (name or names if there are two more with the same value)
 def get_persons_closest_to_average(table):
 
-    years_list = [int(table[i][2]) for i in range(len(table))]
+    years_list = common.get_values_from_column(table, 2, "int")
     average_year = common.get_average_year(years_list)
 
     lowest_difference = float("inf")

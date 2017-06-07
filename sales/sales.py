@@ -33,10 +33,14 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         table = update(table, id_)
     elif option == "5":
-        get_lowest_price_item_id(table)
+        result = get_lowest_price_item_id(table)
+        ui.print_result(result, "The id of the item that was sold for the lowest price is")
     elif option == "6":
-        # get_inputs(list_labels, title)
-        get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
+        answers_list = ui.get_inputs(["Month from", "Day from",
+                                      "Year from", "Month to",
+                                      "Day to", "Year to"], "Please provide record you want to update")
+        result = get_items_sold_between(table, answers_list[0], answers_list[1], answers_list[2],
+                                        answers_list[3], answers_list[4], answers_list[5])
 
     return option, table
 
@@ -142,6 +146,18 @@ def update(table, id_):
     return table
 
 
+def get_first_alphabetically(lowest_price_games):
+    lower_cased_list = [item.lower() for item in lowest_price_games]
+
+    sorted_alph = common.insertion_sort(lower_cased_list[:])
+
+    for i in range(len(lower_cased_list)):
+        if sorted_alph[0] == lower_cased_list[i]:
+            index = i
+
+    return lowest_price_games[index]
+
+
 # special functions:
 # ------------------
 
@@ -150,9 +166,17 @@ def update(table, id_):
 # if there are more than one with the lowest price, return the first by descending alphabetical order
 def get_lowest_price_item_id(table):
 
-    # your code
+    prices_list = common.get_values_from_column(table, 2, "int")
+    sorted_prices_list = common.insertion_sort(prices_list)
+    lowest_price_games = [table[i][1] for i in range(len(table)) if int(table[i][2]) == sorted_prices_list[0]]
 
-    pass
+    first_alphabetically = get_first_alphabetically(lowest_price_games)
+
+    for i in range(len(table)):
+        if first_alphabetically == table[i][1]:
+            result = table[i][0]
+
+    return result
 
 
 # the question: Which items are sold between two given dates ? (from_date < sale_date < to_date)

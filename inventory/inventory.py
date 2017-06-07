@@ -32,9 +32,11 @@ def choose_option(table):
         id_ = ui.get_inputs(["Id"], "Please provide record you want to update")[0]
         table = update(table, id_)
     elif option == "5":
-        ui.get_available_items(table)
+        result = get_available_items(table)
+        ui.print_result(result, "Item that not exceed their durability: ")
     elif option == "6":
-        ui.get_average_durability_by_manufacturers(table)
+        result = get_average_durability_by_manufacturers(table)
+        ui.print_result(result, "Average durability itmes for each manufacturer: ")
 
     return option, table
 
@@ -148,10 +150,27 @@ def update(table, id_):
 #
 # @table: list of lists
 def get_available_items(table):
+    CURRENT_YEAR = 2017
+    list_items = []
 
-    # your code
+    for index in range(len(table)):
+        purchase_date = int(table[index][3])
+        years_from_purchase = CURRENT_YEAR - purchase_date
+        if years_from_purchase <= int(table[index][4]):
+            list_items.append([table[index][0], table[index][1], table[index][2],
+                              int(table[index][3]), int(table[index][4])])
 
-    pass
+    return list_items
+
+
+def creat_list_manufacturers(table):
+    uniqe_manufacturers = []
+
+    for i in range(len(table)):
+        if table[i][2] not in uniqe_manufacturers:
+            uniqe_manufacturers.append(table[i][2])
+
+    return uniqe_manufacturers
 
 
 # the question: What are the average durability itmes for each manufacturer?
@@ -160,6 +179,26 @@ def get_available_items(table):
 # @table: list of lists
 def get_average_durability_by_manufacturers(table):
 
-    # your code
+    avrg_durability = []
+    manufacturers_dict = {}
+    items = 0
+    durability = 0
+    average = 0
 
-    pass
+    uniqe_manufacturers = creat_list_manufacturers(table)
+
+    for j in range(len(uniqe_manufacturers)):
+        durability = 0
+        items = 0
+        for i in range(len(table)):
+            if uniqe_manufacturers[j] == table[i][2]:
+                items += 1
+                durability += int(table[i][4])
+        average = durability / items
+        avrg_durability.append((uniqe_manufacturers[j], average))
+
+    for item in avrg_durability:
+        manufacturers_dict[item[0]] = item[1]
+
+    return manufacturers_dict
+

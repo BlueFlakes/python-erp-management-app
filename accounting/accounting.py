@@ -34,6 +34,7 @@ def choose_option(table):
         table = update(table, id_)
     elif option == "5":
         result = which_year_max(table)
+        result = str(result)
         ui.print_result(result, "The year with the hightest profit is: ")
     elif option == "6":
         year = ui.get_inputs(["Year"], "Please provide year for which you want to see profit")[0]
@@ -185,7 +186,7 @@ def which_year_max(table):
         else:
             year_highest_profit = profit_list[i - 1]
 
-    year_highest_profit = str(year_highest_profit[1])
+    year_highest_profit = int(year_highest_profit[1])
 
     return year_highest_profit
 
@@ -206,6 +207,5 @@ def avg_amount(table, year):
                 profit -= int(table[i][5])
 
     avrg_profit_per_item = profit / items
-    avrg_profit_per_item = str(avrg_profit_per_item)
 
     return avrg_profit_per_item
