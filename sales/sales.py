@@ -149,7 +149,7 @@ def update(table, id_):
 def get_first_alphabetically(lowest_price_games):
     lower_cased_list = [item.lower() for item in lowest_price_games]
 
-    sorted_alph = common.insertion_sort(lower_cased_list[:])
+    sorted_alph = common.insertion_sorting(lower_cased_list[:])
 
     for i in range(len(lower_cased_list)):
         if sorted_alph[0] == lower_cased_list[i]:
@@ -167,7 +167,7 @@ def get_first_alphabetically(lowest_price_games):
 def get_lowest_price_item_id(table):
 
     prices_list = common.get_values_from_column(table, 2, "int")
-    sorted_prices_list = common.insertion_sort(prices_list)
+    sorted_prices_list = common.insertion_sorting(prices_list)
     lowest_price_games = [table[i][1] for i in range(len(table)) if int(table[i][2]) == sorted_prices_list[0]]
 
     first_alphabetically = get_first_alphabetically(lowest_price_games)

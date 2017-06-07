@@ -48,7 +48,7 @@ def generate_random(table):
     return generated
 
 
-def insertion_sort(numbers):
+def insertion_sorting(numbers):
     """
     Parameters
     ----------
