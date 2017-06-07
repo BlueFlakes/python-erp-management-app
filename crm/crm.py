@@ -118,6 +118,7 @@ def remove(table, id_):
 
     return table
 
+#-----------------------------------------------------------------------------#
 
 def get_data_for_update(table, questions, answers_types, id_storage, id_):
     user_data = []
