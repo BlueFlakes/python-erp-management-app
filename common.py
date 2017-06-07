@@ -93,9 +93,9 @@ def get_values_from_column(table, column_number, items_types='str'):
             temp_storage[i].append(table[j][i])
 
     if items_types == 'int':
-        temp_storage = [int(number) for number in temp_storage]
+        temp_storage = [int(number) for number in temp_storage[column_number]]
 
-    return temp_storage[column_number]
+    return temp_storage
 
 
 def get_max(array):
