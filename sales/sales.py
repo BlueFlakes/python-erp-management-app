@@ -38,9 +38,10 @@ def choose_option(table):
     elif option == "6":
         answers_list = ui.get_inputs(["Month from", "Day from",
                                       "Year from", "Month to",
-                                      "Day to", "Year to"], "Please provide record you want to update")
+                                      "Day to", "Year to"], "Please provide dates from and to")
         result = get_items_sold_between(table, answers_list[0], answers_list[1], answers_list[2],
                                         answers_list[3], answers_list[4], answers_list[5])
+        ui.print_result(result, "Items sold between those dates")
 
     return option, table
 
@@ -55,7 +56,7 @@ def start_module():
         None
     """
 
-    table = data_manager.get_table_from_file('sales/sales.csv')
+    table = data_manager.get_table_from_file('sales/sales_test.csv')
 
     list_options = ["Show table", "Add", "Remove", "Update",
                     "Id of item sold with the lowest price", "Items sold between dates"
@@ -183,6 +184,40 @@ def get_lowest_price_item_id(table):
 # return type: list of lists (the filtered table)
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
 
-    # your code
+    sold_items = []
 
-    pass
+    for item in table:
+        game_year = int(item[5])
+        game_month = int(item[3])
+        game_day = int(item[4])
+        year_from, month_from, day_from = int(year_from), int(month_from), int(day_from)
+        year_to, month_to, day_to = int(year_to), int(month_to), int(day_to)
+
+        if game_year >= year_from and game_year <= year_to:
+            if game_year != year_from and game_year != year_to:
+                sold_items.append(item)
+            elif game_year == year_from:
+                if game_month > month_from:
+                    if year_from == year_to:
+                        if game_month < month_to:
+                            sold_items.append(item)
+                    elif year_from != year_to:
+                        sold_items.append(item)
+                elif game_month == month_from:
+                    if game_day > day_from:
+                        sold_items.append(item)
+            elif game_year == year_to:
+                if game_month < month_to:
+                    sold_items.append(item)
+                elif game_month == month_to:
+                    if game_day < day_to:
+                        sold_items.append(item)
+    print(sold_items)
+
+    for i in sold_items:
+        i[2] = int(i[2])
+        i[3] = int(i[3])
+        i[4] = int(i[4])
+        i[5] = int(i[5])
+
+    return sold_items
