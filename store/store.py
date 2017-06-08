@@ -130,26 +130,39 @@ def remove(table, id_):
     return table
 
 
-def get_correct_type(user_input, answers_types, i):
-    if answers_types[i] == int:
-        if user_input.isdigit():
+def get_correct_type(user_input, answers_types, alpha_string):
+    if answers_types == int:
+        try:
             user_input = int(user_input)
-        else:
+        except:
+            user_input = None
             ui.print_error_message("Wrong value provided.\n")
+
+    elif answers_types == str:
+        if alpha_string:
+            user_input = user_input.replace(' ', '')
+
+            if not user_input.isalpha():
+                user_input = None
+                ui.print_error_message('It not alpha string.')
 
     return user_input
 
 
-def get_data_for_update(table, questions, answers_types, id_storage, id_):
+def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha):
     user_data = []
 
     for i in range(len(questions)):
         user_input = None
 
         while type(user_input) != answers_types[i]:
-            user_input = ui.get_inputs(questions[i], '')
-            user_input = get_correct_type(user_input, answers_types, i)
+            user_input = ui.get_inputs([questions[i]], '')[0]
+            user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
+        #---------------------------------------------------------------------#
+            # Other differences while asking for data here
 
+
+        #---------------------------------------------------------------------#
         user_data.append(user_input)
 
     user_data.insert(0, id_)
@@ -175,25 +188,27 @@ def update(table, id_):
     id_storage = common.get_values_from_column(table, 0)
     if id_ in id_storage:
         # Here u can make changes:
-
+        #---------------------------------------------------------------------#
         list_options = ['Modify record']
         questions = ['Title', 'Manufacturer', 'Price (dollars)', 'In stock']
         answers_types = [str, str, int, int]
-
+        is_alpha = [False, False, False, False]
         #---------------------------------------------------------------------#
 
         ui.print_menu('Possible orders:', list_options, "Exit to Menu")
-        user_input = ui.get_inputs('', '')
+        user_input = ui.get_inputs([''], '')[0]
         if user_input == '1':
-            table, row = get_data_for_update(table, questions, answers_types, id_storage, id_)
+            table, row = get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha)
 
-        # Individual differences between files ADD HERE \/
+        # Individual differences after getting data HERE \/
 
 
+        #---------------------------------------------------------------------#
     else:
         ui.print_error_message('This option does not exist.')
 
     return table
+
 
 
 # special functions:

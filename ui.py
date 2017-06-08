@@ -213,7 +213,7 @@ def insert_title(board, title_list, columns_width, column_separators):
 
     return board
 
-def insert_table(board, table, columns_width, column_separators, record_height):
+def insert_to_table(board, table, columns_width, column_separators, record_height):
     next_row = 0
 
     for nested_list in table:
@@ -233,7 +233,7 @@ def insert_data_to_rows(board, table, title_list, columns_width, column_separato
     del column_separators[-1]
 
     board = insert_title(board, title_list, columns_width, column_separators)
-    board = insert_table(board, table, columns_width, column_separators, record_height)
+    board = insert_to_table(board, table, columns_width, column_separators, record_height)
 
     return board
 
@@ -368,17 +368,18 @@ def get_inputs(list_labels, title):
         List of data given by the user. Sample return:
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
+    inputs = []
     if type(list_labels) == list:
         print(title)
-        inputs = []
+
 
         for question in list_labels:
             user_input = input(question + ": ")
             inputs.append(user_input)
 
-    elif type(list_labels) == str:
-        user_input = input(list_labels+':')
-        inputs = user_input
+    elif len(list_labels) == 1:
+        user_input = input(list_labels[0]+':')
+        inputs.append(user_input)
 
     return inputs
 
