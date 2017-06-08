@@ -17,6 +17,17 @@ import common
 
 
 def choose_option(table):
+    """
+    Asks user for input and basing on this calls proper function
+
+    Args:
+        table: list of lists with data
+
+    Returns:
+        Table with a new record
+        String with user's input
+    """
+
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
 
@@ -43,6 +54,7 @@ def start_module():
     Starts this module and displays its menu.
     User can access default special features from here.
     User can go back to main menu from here.
+    File is being overwritten from here.
 
     Returns:
         None
@@ -64,7 +76,7 @@ def start_module():
 
 def show_table(table):
     """
-    Display a table
+    Calls function which prints the table.
 
     Args:
         table: list of lists to be displayed.
@@ -111,6 +123,7 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
+
     table, successful = common.remove_record(table, id_)
 
     if not successful:
@@ -147,11 +160,10 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
         while type(user_input) != answers_types[i]:
             user_input = ui.get_inputs([questions[i]], '')[0]
             user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
             # Other differences while asking for data here
 
-
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
         user_data.append(user_input)
 
     user_data.insert(0, id_)
@@ -177,12 +189,12 @@ def update(table, id_):
     id_storage = common.get_values_from_column(table, 0)
     if id_ in id_storage:
         # Here u can make changes:
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
         list_options = ['Modify record']
         questions = ['Name', 'E-mail', 'Subs newsletter']
         answers_types = [str, str, int]
         is_alpha = [False, False, False]
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
 
         ui.print_menu('Possible orders:', list_options, "Exit to Menu")
         user_input = ui.get_inputs([''], '')[0]
@@ -195,14 +207,11 @@ def update(table, id_):
         else:
             table[row][3] = '0'
 
-
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
     else:
         ui.print_error_message('This option does not exist.')
 
     return table
-
-
 
 # special functions:
 # ------------------
@@ -211,6 +220,18 @@ def update(table, id_):
 # the question: What is the id of the customer with the longest name ?
 # return type: string (id) - if there are more than one longest name, return the first by descending alphabetical order
 def get_longest_name_id(table):
+    """
+    Gets the id of the longest name.
+    If there are more than one longest names, sorts the alphabetically
+    and gets the first one.
+
+    Args:
+        table: list of lists
+
+    Returns:
+        string: id of the longest name
+    """
+
     names_data = common.get_values_from_column(table, 1)
     id_data = common.get_values_from_column(table, 0)
     longest_string, rows = common.find_longest_string_in_list(names_data, True)
@@ -237,10 +258,20 @@ def get_longest_name_id(table):
     return id_to_return
 
 
-
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
 def get_subscribed_emails(table):
+    """
+    Gets the list of strings with emails of people,
+    who have subscribed to the newsletter.
+
+    Args:
+        table: lsit of lists
+
+    Returns:
+        List of strings: email + name
+    """
+
     names_data = common.get_values_from_column(table, 1)
     e_mail_data = common.get_values_from_column(table, 2)
     subs_info = common.get_values_from_column(table, 3)
@@ -256,8 +287,3 @@ def get_subscribed_emails(table):
         subscription_score.append(e_mail_data[i]+';'+names_data[i])
 
     return subscription_score
-
-
-
-
-    #
