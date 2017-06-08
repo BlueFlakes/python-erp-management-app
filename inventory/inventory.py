@@ -203,11 +203,14 @@ def get_available_items(table):
     list_items = []
 
     for index in range(len(table)):
-        purchase_date = int(table[index][3])
-        years_from_purchase = CURRENT_YEAR - purchase_date
-        if years_from_purchase <= int(table[index][4]):
-            list_items.append([table[index][0], table[index][1], table[index][2],
-                              int(table[index][3]), int(table[index][4])])
+        try:
+            purchase_date = int(table[index][3])
+            years_from_purchase = CURRENT_YEAR - purchase_date
+            if years_from_purchase <= int(table[index][4]):
+                list_items.append([table[index][0], table[index][1], table[index][2],
+                                  int(table[index][3]), int(table[index][4])])
+        except IndexError:
+            pass
 
     return list_items
 
@@ -216,8 +219,11 @@ def creat_list_manufacturers(table):
     uniqe_manufacturers = []
 
     for i in range(len(table)):
-        if table[i][2] not in uniqe_manufacturers:
-            uniqe_manufacturers.append(table[i][2])
+        try:
+            if table[i][2] not in uniqe_manufacturers:
+                uniqe_manufacturers.append(table[i][2])
+        except IndexError:
+            pass
 
     return uniqe_manufacturers
 
@@ -231,20 +237,32 @@ def get_average_durability_by_manufacturers(table):
     avrg_durability = []
     manufacturers_dict = {}
     items = 0
-    durability = 0
-    average = 0
 
     uniqe_manufacturers = creat_list_manufacturers(table)
 
     for j in range(len(uniqe_manufacturers)):
         durability = 0
         items = 0
-        for i in range(len(table)):
-            if uniqe_manufacturers[j] == table[i][2]:
-                items += 1
-                durability += int(table[i][4])
-        average = durability / items
-        avrg_durability.append((uniqe_manufacturers[j], average))
+
+        try:
+            for i in range(len(table)):
+                if uniqe_manufacturers[j] == table[i][2]:
+                    items += 1
+                    durability += int(table[i][4])
+        except (IndexError, ValueError):
+            pass
+
+        try:
+            average = durability / items
+        except ZeroDivisionError as err:
+            ui.print_error_message(err)
+
+        try:
+            if uniqe_manufacturers[j]:
+                avrg_durability.append((uniqe_manufacturers[j], average))
+            raise ValueError
+        except ValueError:
+            pass
 
     for item in avrg_durability:
         manufacturers_dict[item[0]] = item[1]
