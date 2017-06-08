@@ -213,6 +213,20 @@ def update(table, id_):
 # ------------------
 
 
+def find_longest_string_in_list(list_of_names, return_row_number=False):
+    rows_collector = []
+    longest = common.get_max(list_of_names)
+
+    for i in range(len(list_of_names)):
+        if len(list_of_names[i]) == longest:
+            rows_collector.append(i)
+
+    if return_row_number is True:
+        longest = [longest, rows_collector]
+
+    return longest
+
+
 # the question: What is the id of the customer with the longest name ?
 # return type: string (id) - if there are more than one longest name, return the first by descending alphabetical order
 def get_longest_name_id(table):
@@ -230,7 +244,7 @@ def get_longest_name_id(table):
 
     names_data = common.get_values_from_column(table, 1)
     id_data = common.get_values_from_column(table, 0)
-    longest_string, rows = common.find_longest_string_in_list(names_data, True)
+    longest_string, rows = find_longest_string_in_list(names_data, True)
 
     if len(rows) > 1:
         alphabetical_array = []

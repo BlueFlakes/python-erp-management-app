@@ -75,7 +75,7 @@ def insertion_sorting(numbers):
 
     return numbers
 
-
+# used in other modules
 def get_values_from_column(table, column_number, items_types='str'):
     temp_storage = []
     digits = [i for i in range(0, 10)]
@@ -115,20 +115,7 @@ def get_max(array):
     return longest
 
 
-def find_longest_string_in_list(list_of_names, return_row_number=False):
-    rows_collector = []
-    longest = get_max(list_of_names)
-
-    for i in range(len(list_of_names)):
-        if len(list_of_names[i]) == longest:
-            rows_collector.append(i)
-
-    if return_row_number is True:
-        longest = [longest, rows_collector]
-
-    return longest
-
-
+# this is used in other modules
 def get_item_row(table, item):
     row_number = None
 
@@ -139,14 +126,14 @@ def get_item_row(table, item):
 
     return row_number
 
-
+# this is used in other modules
 def remove_record(table, id_):
     id_storage = get_values_from_column(table, 0)
 
     records_amount = len(id_storage)
     rows_to_del = get_item_row(id_storage, id_)
 
-    if rows_to_del != None:
+    if rows_to_del is not None:
         del table[rows_to_del]
         successful = True
 
