@@ -45,7 +45,7 @@ def choose_option(table):
             result = str(result)
             ui.print_result(result, "The Avarage profit per item in {} is: ".format(year))
         except UnboundLocalError as err:
-            ui.print_error_message(err)
+            ui.print_error_message("")
 
     return option, table
 
@@ -233,20 +233,41 @@ def update(table, id_):
     return table
 
 
-def creat_list_uniqe_years(table):
-    uniqe_year = []
+# def creat_list_uniqe_years(table):
+#     """
+#     Creat list of uniqe years based on data read from .csv file
 
-    for i in range(len(table)):
-        try:
-            if table[i][3] not in uniqe_year:
-                uniqe_year.append(table[i][3])
-        except IndexError:
-            pass
+#     Args:
+#         table: list of lists with data
 
-    return uniqe_year
+#     Returns:
+#         list of unique strings
+#     """
+#     uniqe_year = []
+
+#     for i in range(len(table)):
+#         try:
+#             if table[i][3] not in uniqe_year:
+#                 uniqe_year.append(table[i][3])
+#         except IndexError:
+#             pass
+
+#     return uniqe_year
 
 
 def make_list_profit_year(uniqe_year, table):
+    """
+    Calculate profit as difference between sum of incomes and sum of outcomes.
+    Then creat list with elements as pair of profit and unique year
+    for which is this profit.
+
+    Args:
+        table: list of lists with data
+        uniqe_year: list of unique strings
+
+    Returns:
+        list of pair int, str as elements
+    """
     profit_list = []
 
     for j in range(len(uniqe_year)):
@@ -271,8 +292,16 @@ def make_list_profit_year(uniqe_year, table):
 # the question: Which year has the highest profit? (profit=in-out)
 # return the answer (number)
 def which_year_max(table):
+    """
+    Find year with the hightest profit (sum of incoms - sum of outcomes)
 
-    uniqe_year = creat_list_uniqe_years(table)
+    Args:
+        table: list of lists with data
+
+    Returns:
+        number (int)
+    """
+    uniqe_year = common.create_list_of_unique(table, 3)
     profit_list = make_list_profit_year(uniqe_year, table)
 
     year_highest_profit = 0
@@ -290,29 +319,41 @@ def which_year_max(table):
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
 # return the answer (number)
 def avg_amount(table, year):
+    """
+    Convert given year (str) to year (int)
+    Calculate average profit in given year as division of profit in given year
+    and numbers of profit change in given year.
 
+    Args:
+        table: list of lists with data
+        year: str that represent year which we are interested in
+
+    Returns:
+        number (float)
+    """
     try:
         year = int(year)
-    except ValueError as err:
-        ui.print_error_message(err)
+    except ValueError:
+        ui.print_error_message("It's not a number")
+    else:
 
-    items = 0
-    profit = 0
+        items = 0
+        profit = 0
 
-    for i in range(len(table)):
+        for i in range(len(table)):
+            try:
+                if year == int(table[i][3]):
+                    items += 1
+                    if table[i][4] == "in":
+                        profit += int(table[i][5])
+                    elif table[i][4] == "out":
+                        profit -= int(table[i][5])
+            except ValueError:
+                pass
+
         try:
-            if year == int(table[i][3]):
-                items += 1
-                if table[i][4] == "in":
-                    profit += int(table[i][5])
-                elif table[i][4] == "out":
-                    profit -= int(table[i][5])
-        except ValueError:
-            pass
-
-    try:
-        avrg_profit_per_item = profit / items
-    except ZeroDivisionError as err:
-        ui.print_error_message(err)
+            avrg_profit_per_item = profit / items
+        except ZeroDivisionError:
+            ui.print_error_message("No entry with that year")
 
     return avrg_profit_per_item

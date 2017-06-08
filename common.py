@@ -162,4 +162,27 @@ def remove_record(table, id_):
     return table, successful
 
 
+def create_list_of_unique(table, column_in_file):
+    """
+    Creat list of unique based on data read from .csv file
+    and index of row we are intersted in.
+
+    Args:
+        table: list of lists with data
+        column_in_file: int that is proper index in row in data
+
+    Returns:
+        list of unique strings
+    """
+    list_of_unique = []
+
+    for i in range(len(table)):
+        try:
+            if table[i][column_in_file] not in list_of_unique:
+                list_of_unique.append(table[i][column_in_file])
+        except IndexError:
+            pass
+
+    return list_of_unique
+
 #

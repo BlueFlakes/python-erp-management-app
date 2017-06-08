@@ -215,6 +215,15 @@ def update(table, id_):
 #
 # @table: list of lists
 def get_available_items(table):
+    """
+    Check if durability of items are not exceed.
+
+    Args:
+        table: list of lists with data
+
+    Returns:
+        list of lists: inner list contain all information that are given in data structure (on top of module in comment)
+    """
     CURRENT_YEAR = 2017
     list_items = []
 
@@ -232,6 +241,15 @@ def get_available_items(table):
 
 
 def creat_list_manufacturers(table):
+    """
+    Creat list of manufactures years based on data read from .csv file
+
+    Args:
+        table: list of lists with data
+
+    Returns:
+        list of unique strings
+    """
     uniqe_manufacturers = []
 
     for i in range(len(table)):
@@ -254,7 +272,7 @@ def get_average_durability_by_manufacturers(table):
     manufacturers_dict = {}
     items = 0
 
-    uniqe_manufacturers = creat_list_manufacturers(table)
+    uniqe_manufacturers = common.create_list_of_unique(table, 2)
 
     for j in range(len(uniqe_manufacturers)):
         durability = 0
