@@ -170,7 +170,7 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
         while type(user_input) != answers_types[i]:
             user_input = ui.get_inputs([questions[i]], '')[0]
             user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
-        # ---------------------------------------------------------------------#
+
             # Other differences while asking for data here
             if i == 2:
                 if type(user_input) == int:
@@ -184,7 +184,6 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
                         user_input = None
                         ui.print_error_message("Wrong value provided.")
 
-        # ---------------------------------------------------------------------#
         user_data.append(user_input)
 
     user_data.insert(0, id_)
@@ -209,22 +208,18 @@ def update(table, id_):
 
     id_storage = common.get_values_from_column(table, 0)
     if id_ in id_storage:
+
         # Here u can make changes:
-        # ---------------------------------------------------------------------#
         list_options = ['Modify record']
         questions = ['Title', 'Price', 'Month', 'Day', 'Year']
         answers_types = [str, int, int, int, int]
         is_alpha = [False, False, False, False, False]
-        # ---------------------------------------------------------------------#
 
         ui.print_menu('Possible orders:', list_options, "Exit to Menu")
         user_input = ui.get_inputs([''], '')[0]
         if user_input == '1':
             table, row = get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha)
 
-        # Individual differences after getting data HERE \/
-
-        # ---------------------------------------------------------------------#
     else:
         ui.print_error_message('This option does not exist.')
 

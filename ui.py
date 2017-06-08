@@ -1,6 +1,18 @@
 
 
 def check_lists_length(table, title_list):
+    """
+    Check the length of nested list in table and compare it to the length of
+    title_list.
+
+    Args:
+        param1: table (list) contains lists
+        param2: title_list
+
+    Returns:
+        is_length_equal (bool)
+
+    """
     start_size = len(table[0])
 
     for nested_list in table:
@@ -12,15 +24,36 @@ def check_lists_length(table, title_list):
     return is_length_equal
 
 def convert_each_string_to_integer(table, temp):
+    """
+    This function covert every string to it's length as integer
+
+    Args:
+        param1: table (list) contains lists
+        param2: temp records amount of nested list in table
+
+    Returns:
+        table (list) contains lists
+
+    """
     # get length of each string
     table = [len(column) for row in table for column in row]
-    # pack values in smaller collections
+    # pack every column length into lists by rows
     table = [table[i-temp+1:i+1] for i in range(len(table)) if (i+1) % temp == 0]
 
     return table
 
 
 def check_table_for_type_bugs(table):
+    """
+    Iterate through the list and check for invalid data types
+
+    Args:
+        param1: table (list) contains lists
+
+    Returns:
+        broken_data (bool)
+
+    """
     broken_data = False
 
     for row in table:
@@ -41,7 +74,16 @@ def check_table_for_type_bugs(table):
 
 
 def check_title_list_for_type_bugs(title_list):
+    """
+    Iterate through the list and check for invalid data types
 
+    Args:
+        param1: title_list (list) contains str
+
+    Returns:
+        broken_data (bool)
+
+    """
     for record in title_list:
         if type(record) == str:
             broken_data = False
@@ -53,7 +95,24 @@ def check_title_list_for_type_bugs(title_list):
 
 
 def check_data_for_bugs(table, title_list):
+    """
+    Analysing data for unexpected errors
 
+    Args:
+        param1: table (list) contains list
+        param2: title_list (list) contains str
+
+    Example:
+        Operated errors:
+            difference between items amount in every row
+            difference between items amount in row and titles
+            data types inside table, table should contain list of lists
+            data types inside title_list, title_list should contain strings
+
+    Returns:
+        None. Just raise Error if any bug appear
+
+    """
     if (not table) or (not title_list):
         raise ValueError('Not enough data delivered.')
 
@@ -66,7 +125,17 @@ def check_data_for_bugs(table, title_list):
     if not lists_length_equal:
         raise ValueError('Wrong amount of data is stored in table or title_list.')
 
-def highest_number_in_list(data):
+def highest_numbers_in_collections(data):
+    """
+    This func finding highest values in collections and return it
+
+    Args:
+        param1: data (list)
+
+    Returns:
+        highest_value (int)
+
+    """
     temp_storage = []
 
     for record in data:
@@ -79,24 +148,49 @@ def highest_number_in_list(data):
 
         temp_storage.append(highest_number)
 
-
     return temp_storage
 
 
 def get_highest_value_per_column(sizes, records_amount_in_nested_list):
+    """
+    This func collect the values in each list by columns
+
+    Args:
+        param1: table (list) contains list
+        param2: title_list (list) contains str
+
+    Returns:
+        highest_value (int)
+
+    """
     temp_storage = []
 
+    # create list for every column
     for i in range(records_amount_in_nested_list):
         temp_storage.append([])
 
+    # make collections by columns
     for record in sizes:
         temp_storage[record[1]].append(record[0])
 
-    temp_storage = highest_number_in_list(temp_storage)
+    highest_values = highest_numbers_in_collections(temp_storage)
 
-    return temp_storage
+    return highest_values
+
 
 def get_columns_sizes(table, title_list):
+    """
+    This function collect sizes width of each row and then find the longest
+    value of each column
+
+    Args:
+        param1: table (list) contains list
+        param2: title_list (list) contains str
+
+    Returns:
+        columns_sizes (list) contains int
+
+    """
     # wyciągnij filtry do głównego ciała i stwórz flage
 
     columns_sizes = []
@@ -132,40 +226,88 @@ def get_columns_sizes(table, title_list):
 
 
 def get_rid_of_empty_columns(table, title_list):
+    """
+    This function clean off board from empty columns
+
+    Args:
+        param1: table (list) contains list
+        param2: title_list (list) contains str
+
+    Returns:
+        table (list) contains lists
+        title_list (list) contains str
+
+    """
+
     temp_storage = []
+    # Find empty column index
     table_index_to_del = [i for row in table for i in range(len(row)) if len(row[i]) == 0]
     title_index_to_del = set([i for i in range(len(title_list)) if len(title_list[i]) == 0])
 
+    # clean off repetitive values
     for index in table_index_to_del:
         if index not in temp_storage:
             temp_storage.append(index)
 
+    # change to data types to set and compare
     table_index_to_del = set(temp_storage)
     common_part = list(title_index_to_del & table_index_to_del)
     common_part = common_part[::-1]
 
+    # Delete part of common empty columns
     for record in common_part:
         for j in range(len(table)):
             del table[j][record]
 
         del title_list[record]
 
-
     return table, title_list
 
+
 def add_free_space_on_the_sides(columns_width):
+    """
+    This function calculate the amount of columns in board
+
+    Args:
+        param1: columns_width (list) contains int
+
+    Returns:
+        columns_width (int)
+
+    """
     # added value must be ODD and higher or equal than 3
     columns_width = [column_length+3 for column_length in columns_width]
 
     return columns_width
 
 def calculate_height(table, record_height):
+    """
+    This function calculate the amount of rows in board
+
+    Args:
+        param1: table (list) contains lists
+        param2: record_height (int)
+
+    Returns:
+        rows_amount (int)
+
+    """
     rows_amount = (len(table) * record_height) + 1 + record_height
 
     return rows_amount
 
 
 def sum_numbers(list_of_numbers):
+    """
+    This function sum the numbers which are provided
+
+    Args:
+        param1: list_of_numbers (list) contains int
+
+    Returns:
+        sum_score (int)
+
+    """
     sum_score = 0
 
     for number in list_of_numbers:
@@ -174,6 +316,19 @@ def sum_numbers(list_of_numbers):
     return sum_score
 
 def create_board(height, width, record_height, separators):
+    """
+    This function insert values into rows.
+
+    Args:
+        param1: height (int)
+        param2: width (int)
+        param3: record_height (int)
+        param4: separators (list) contains int
+
+    Returns:
+        board: list of nested lists
+
+    """
     board = []
     height = height
     width = width+1
@@ -204,30 +359,85 @@ def print_board(board):
         print()
 
 def insert_title(board, title_list, columns_width, column_separators):
+    """
+    This function insert values into rows.
 
+    Args:
+        param1: board (list) contains lists,
+        param2: title_list (list) contains str,
+        param3: columns_width (list) contains int
+        param4: column_separators (list) contains int
+
+    Example:
+        difference between columns_width and column_separators:
+            columns_separators is the stepping sum through columns_width:
+
+            columns_width = [5, 9, 12]
+            column_separators = [5, 14, 26]
+
+    Returns:
+        board: list of nested lists
+
+    """
     for i in range(len(title_list)):
+        # start_point calculationg the X in XY dimension
         start_point = int((columns_width[i]-len(title_list[i]))/2) + column_separators[i] + 1
 
         for j in range(len(title_list[i])):
+            # iterate throught string and insert letter by letter
             board[2][start_point+j] = title_list[i][j]
 
     return board
 
 def insert_to_table(board, table, columns_width, column_separators, record_height):
+    """
+    This function insert values into board rows.
+
+    Args:
+        param1: board (list) contains lists,
+        param2: table (list) contains lists,
+        param3: columns_width (list) contains int
+        param4: column_separators (list) contains int
+        param5: record_height (int)
+
+    Example:
+        difference between columns_width and column_separators:
+            columns_separators is the stepping sum through columns_width:
+
+            columns_width = [5, 9, 12]
+            column_separators = [5, 14, 26]
+
+    Returns:
+        board: list of nested lists
+
+    """
     next_row = 0
 
     for nested_list in table:
         next_row += record_height
 
         for i in range(len(nested_list)):
+            # start_point calculationg the X in XY dimension
             start_point = int((columns_width[i] - len(nested_list[i]))/2) + column_separators[i] + 1
 
             for j in range(len(nested_list[i])):
+                # iterate throught string and insert letter by letter
                 board[2+next_row][j+start_point] = nested_list[i][j]
 
     return board
 
 def insert_data_to_rows(board, table, title_list, columns_width, column_separators, record_height):
+    """This function modify corners, it's is such easyer way to insert values
+    in corners because they got constant index in table.
+    like [0][0] is always north-west corner in two dimensional table
+
+    Args:
+        param1: board (list) contains lists
+
+    Returns:
+        board: list of nested lists
+
+    """
     columns_width = [number-1 for number in columns_width]
     column_separators.insert(0, 0)
     del column_separators[-1]
@@ -238,6 +448,17 @@ def insert_data_to_rows(board, table, title_list, columns_width, column_separato
     return board
 
 def modify_corners(board):
+    """This function modify corners, it's is such easyer way to insert values
+    in corners because they got constant index in table.
+    like [0][0] is always north-west corner in two dimensional table
+
+    Args:
+        param1: board (list of nested lists)
+
+    Returns:
+        board: list of nested lists
+
+    """
     board[0][0] = '/'
     board[0][-1] = '\\'
     board[-1][0] = '\\'
@@ -247,13 +468,29 @@ def modify_corners(board):
 
 
 def print_list_elements(results):
+    """Printing result from dictionary data type
 
+    Args:
+        results (dict): The first parameter.
+
+    Returns:
+        This function doesn't return anything it only prints to console.
+
+    """
     for i in range(len(results)):
         print("{}{}. {}".format('\t', str(i+1), results[i]))
 
 
 def print_dict_elements(results):
+    """
+    Printing result from dictionary data type
 
+    Args:
+        results (dict): The first parameter.
+
+    Returns:
+        This function doesn't return anything it only prints to console.
+    """
     for key, value in results.items():
         print('{}{} : {}'.format('\t', key.capitalize(), value))
 
@@ -295,6 +532,7 @@ def print_table(table, title_list):
     # insert board
     board = insert_data_to_rows(board, table, title_list, columns_width, column_separators, RECORD_HEIGHT)
     board = modify_corners(board)
+
     # print board
     print_board(board)
 
@@ -374,7 +612,7 @@ def get_inputs(list_labels, title):
 
 
         for question in list_labels:
-            user_input = input(question + ": ")
+            user_input = input(question)
             inputs.append(user_input)
 
     elif len(list_labels) == 1:
