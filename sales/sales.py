@@ -19,6 +19,17 @@ import common
 
 
 def choose_option(table):
+    """
+    Asks user for input and basing on this calls proper function
+
+    Args:
+        table: list of lists with data
+
+    Returns:
+        Table with a new record
+        String with user's input
+    """
+
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
 
@@ -51,6 +62,7 @@ def start_module():
     Starts this module and displays its menu.
     User can access default special features from here.
     User can go back to main menu from here.
+    File is being overwritten from here.
 
     Returns:
         None
@@ -72,7 +84,7 @@ def start_module():
 
 def show_table(table):
     """
-    Display a table
+    Calls function which prints the table.
 
     Args:
         table: list of lists to be displayed.
@@ -158,7 +170,7 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
         while type(user_input) != answers_types[i]:
             user_input = ui.get_inputs([questions[i]], '')[0]
             user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
             # Other differences while asking for data here
             if i == 2:
                 if type(user_input) == int:
@@ -172,8 +184,7 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
                         user_input = None
                         ui.print_error_message("Wrong value provided.")
 
-
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
         user_data.append(user_input)
 
     user_data.insert(0, id_)
@@ -199,12 +210,12 @@ def update(table, id_):
     id_storage = common.get_values_from_column(table, 0)
     if id_ in id_storage:
         # Here u can make changes:
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
         list_options = ['Modify record']
         questions = ['Title', 'Price', 'Month', 'Day', 'Year']
         answers_types = [str, int, int, int, int]
         is_alpha = [False, False, False, False, False]
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
 
         ui.print_menu('Possible orders:', list_options, "Exit to Menu")
         user_input = ui.get_inputs([''], '')[0]
@@ -213,9 +224,7 @@ def update(table, id_):
 
         # Individual differences after getting data HERE \/
 
-
-
-        #---------------------------------------------------------------------#
+        # ---------------------------------------------------------------------#
     else:
         ui.print_error_message('This option does not exist.')
 
@@ -223,6 +232,17 @@ def update(table, id_):
 
 
 def get_first_alphabetically(lowest_price_games):
+    """
+    Sorts the list alphabetically using insertion sort,
+    then returns first element of a sorted list.
+
+    Args:
+        list with strings
+
+    Returns:
+        String
+    """
+
     lower_cased_list = [item.lower() for item in lowest_price_games]
 
     sorted_alph = common.insertion_sorting(lower_cased_list[:])
@@ -241,6 +261,16 @@ def get_first_alphabetically(lowest_price_games):
 # return type: string (id)
 # if there are more than one with the lowest price, return the first by descending alphabetical order
 def get_lowest_price_item_id(table):
+    """
+    Gets id of item with the lowest price.
+    If there are two items with the same, lowest price, returns first alphabetically.
+
+    Args:
+        table: list of lists with data
+
+    Returns:
+        String
+    """
 
     prices_list = common.get_values_from_column(table, 2, "int")
     sorted_prices_list = common.insertion_sorting(prices_list)
@@ -250,14 +280,29 @@ def get_lowest_price_item_id(table):
 
     for i in range(len(table)):
         if first_alphabetically == table[i][1]:
-            result = table[i][0]
+            item = table[i][0]
 
-    return result
+    return item
 
 
 # the question: Which items are sold between two given dates ? (from_date < sale_date < to_date)
 # return type: list of lists (the filtered table)
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
+    """
+    Gets items sold between given dates.
+
+    Args:
+        table: list of lists with data
+        month_from: string (input from user)
+        day_from: string (input from user)
+        year_from: string (input from user)
+        month_to: string (input from user)
+        month_to: string (input from user)
+        month_to: string (input from user)
+
+    Returns:
+        Filtered table with games sold only between given dates.
+    """
 
     table = [x[:] for x in table]
 
@@ -274,6 +319,17 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
 
 
 def check_correctness_of_arguments(dates):
+    """
+    Makes strings from all the dates given (test.py gives int as an arg)
+    Makes days and months with correct form: i. e. 03 instead of 3.
+
+    Args:
+        List with strings
+
+    Returns:
+        Corrected list.
+    """
+
     for i in range(len(dates)):
         dates[i] = str(dates[i])
         if len(dates[i]) < 2:
@@ -283,6 +339,17 @@ def check_correctness_of_arguments(dates):
 
 
 def get_dates_of_games(table):
+    """
+    Merges years, months and days from every element of the table.
+    Makes list with all merged dates.
+
+    Args:
+        List of lists
+
+    Returns:
+        List of strings
+    """
+
     dates_of_games = []
     for item in table:
         for i in range(3, 5):
@@ -296,6 +363,18 @@ def get_dates_of_games(table):
 
 
 def get_games_between_dates(dates_of_games, date_from, date_to):
+    """
+    Gets all the games which were sold between given dates.
+
+    Args:
+        List of strings: merged dates of all games
+        String: beginning date
+        String: ending date
+
+    Returns:
+        List of merged dates
+    """
+
     games_between_given_dates = []
     for number in dates_of_games:
         if int(number) > int(date_from) and int(number) < int(date_to):
@@ -305,6 +384,20 @@ def get_games_between_dates(dates_of_games, date_from, date_to):
 
 
 def get_dates(dates):
+    """
+    Makes variables and calls inner functions.
+
+    Args:
+        List of strings: merged dates of all games
+        String: beginning date
+        String: ending date
+
+    Returns:
+        List with dates
+        String with begin date
+        String with end date
+    """
+
     dates = check_correctness_of_arguments(dates)
 
     date_from = dates[0] + dates[1] + dates[2]
@@ -314,6 +407,20 @@ def get_dates(dates):
 
 
 def get_sold_games(dates_of_games, games_between_dates, table):
+    """
+    Filters the table to include only games which were
+    sold between given dates.
+    Converts numbers in filtered table from string to int.
+
+    Args:
+        List of strings: merged dates of all games
+        List of strings: merged dates which are between given dates only
+        Table: list of lists
+
+    Returns:
+        Filtered table
+    """
+
     sold_games = []
     for i in range(len(dates_of_games)):
         for j in range(len(games_between_dates)):
