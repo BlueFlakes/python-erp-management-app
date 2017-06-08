@@ -36,9 +36,12 @@ def choose_option(table):
     elif option == "6":
         manufacturer = ui.get_inputs(["Manufacturer"], "Please provide manufacturer which" +
                                      "amount of games you want see")[0]
-        result = get_average_by_manufacturer(table, manufacturer)
-        result = str(result)
-        ui.print_result(result, "The avarage amount of games in stoc by {} is: ".format(manufacturer))
+        try:
+            result = get_average_by_manufacturer(table, manufacturer)
+            result = str(result)
+            ui.print_result(result, "The avarage amount of games in stoc by {} is: ".format(manufacturer))
+        except UnboundLocalError as err:
+            ui.print_error_message(err)
 
     return option, table
 
@@ -217,10 +220,18 @@ def get_counts_by_manufacturers(table):
 
     manufacturers_dict = {}
     for item in table:
-        if item[2] in manufacturers_dict.keys():
-            manufacturers_dict[item[2]] += 1
-        else:
-            manufacturers_dict[item[2]] = 1
+        try:
+            if item[2]:
+                try:
+                    if item[2] in manufacturers_dict.keys():
+                        manufacturers_dict[item[2]] += 1
+                    else:
+                        manufacturers_dict[item[2]] = 1
+                except IndexError:
+                    pass
+            raise ValueError
+        except ValueError:
+            pass
 
     return manufacturers_dict
 
@@ -234,10 +245,16 @@ def get_average_by_manufacturer(table, manufacturer):
     manufacturer_apperance = 0
 
     for i in range(len(table)):
-        if manufacturer.lower() == table[i][2].lower():
-            games += int(table[i][-1])
-            manufacturer_apperance += 1
+        try:
+            if manufacturer.lower() == table[i][2].lower():
+                games += int(table[i][-1])
+                manufacturer_apperance += 1
+        except (IndexError, ValueError):
+            pass
 
-    avrg_games_by_manufacturer = games / manufacturer_apperance
+    try:
+        avrg_games_by_manufacturer = games / manufacturer_apperance
+    except ZeroDivisionError as err:
+        ui.print_error_message(err)
 
     return avrg_games_by_manufacturer

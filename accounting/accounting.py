@@ -19,6 +19,7 @@ import common
 
 
 def choose_option(table):
+
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
 
@@ -38,9 +39,13 @@ def choose_option(table):
         ui.print_result(result, "The year with the hightest profit is: ")
     elif option == "6":
         year = ui.get_inputs(["Year"], "Please provide year for which you want to see profit")[0]
-        result = avg_amount(table, year)
-        result = str(result)
-        ui.print_result(result, "The Avarage profit per item in {} is: ".format(year))
+
+        try:
+            result = avg_amount(table, year)
+            result = str(result)
+            ui.print_result(result, "The Avarage profit per item in {} is: ".format(year))
+        except UnboundLocalError as err:
+            ui.print_error_message(err)
 
     return option, table
 
@@ -232,8 +237,11 @@ def creat_list_uniqe_years(table):
     uniqe_year = []
 
     for i in range(len(table)):
-        if table[i][3] not in uniqe_year:
-            uniqe_year.append(table[i][3])
+        try:
+            if table[i][3] not in uniqe_year:
+                uniqe_year.append(table[i][3])
+        except IndexError:
+            pass
 
     return uniqe_year
 
@@ -244,11 +252,14 @@ def make_list_profit_year(uniqe_year, table):
     for j in range(len(uniqe_year)):
         profit = 0
         for i in range(len(table)):
-            if uniqe_year[j] == table[i][3]:
-                if table[i][4] == "in":
-                    profit += int(table[i][5])
-                elif table[i][4] == "out":
-                    profit -= int(table[i][5])
+            try:
+                if uniqe_year[j] == table[i][3]:
+                    if table[i][4] == "in":
+                        profit += int(table[i][5])
+                    elif table[i][4] == "out":
+                        profit -= int(table[i][5])
+            except IndexError:
+                pass
         profit_list.append((profit, uniqe_year[j]))
 
     return profit_list
@@ -280,18 +291,28 @@ def which_year_max(table):
 # return the answer (number)
 def avg_amount(table, year):
 
+    try:
+        year = int(year)
+    except ValueError as err:
+        ui.print_error_message(err)
+
     items = 0
     profit = 0
 
     for i in range(len(table)):
+        try:
+            if year == int(table[i][3]):
+                items += 1
+                if table[i][4] == "in":
+                    profit += int(table[i][5])
+                elif table[i][4] == "out":
+                    profit -= int(table[i][5])
+        except ValueError:
+            pass
 
-        if int(year) == int(table[i][3]):
-            items += 1
-            if table[i][4] == "in":
-                profit += int(table[i][5])
-            elif table[i][4] == "out":
-                profit -= int(table[i][5])
-
-    avrg_profit_per_item = profit / items
+    try:
+        avrg_profit_per_item = profit / items
+    except ZeroDivisionError as err:
+        ui.print_error_message(err)
 
     return avrg_profit_per_item
