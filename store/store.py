@@ -158,11 +158,8 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
         while type(user_input) != answers_types[i]:
             user_input = ui.get_inputs([questions[i]], '')[0]
             user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
-        #---------------------------------------------------------------------#
-            # Other differences while asking for data here
 
-
-        #---------------------------------------------------------------------#
+        # Other differences while asking for data here
         user_data.append(user_input)
 
     user_data.insert(0, id_)
@@ -187,28 +184,22 @@ def update(table, id_):
 
     id_storage = common.get_values_from_column(table, 0)
     if id_ in id_storage:
+
         # Here u can make changes:
-        #---------------------------------------------------------------------#
         list_options = ['Modify record']
         questions = ['Title', 'Manufacturer', 'Price (dollars)', 'In stock']
         answers_types = [str, str, int, int]
         is_alpha = [False, False, False, False]
-        #---------------------------------------------------------------------#
 
         ui.print_menu('Possible orders:', list_options, "Exit to Menu")
         user_input = ui.get_inputs([''], '')[0]
         if user_input == '1':
             table, row = get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha)
 
-        # Individual differences after getting data HERE \/
-
-
-        #---------------------------------------------------------------------#
     else:
         ui.print_error_message('This option does not exist.')
 
     return table
-
 
 
 # special functions:
@@ -217,7 +208,16 @@ def update(table, id_):
 # the question: How many different kinds of game are available of each manufacturer?
 # return type: a dictionary with this structure: { [manufacturer] : [count] }
 def get_counts_by_manufacturers(table):
+    """
+    Check how many different games are made by each manufacturer. 
+    Return dictionary where key is manufacturer and value is number of games by it.
 
+    Args:
+        table: list of lists with data
+
+    Returns:
+        dict: key (str), value (int)
+    """
     manufacturers_dict = {}
     for item in table:
         try:
@@ -229,7 +229,8 @@ def get_counts_by_manufacturers(table):
                         manufacturers_dict[item[2]] = 1
                 except IndexError:
                     pass
-            raise ValueError
+            else:
+                raise ValueError
         except ValueError:
             pass
 
@@ -239,8 +240,17 @@ def get_counts_by_manufacturers(table):
 # the question: What is the average amount of games in stock of a given manufacturer?
 # return type: number
 def get_average_by_manufacturer(table, manufacturer):
+    """
+    Give back average amount of games in stock of a given manufacturer.
+    Count how many different games are in stock by given manufacturer and
+    how many copies of them are in total. On that base avarege amount is count.
 
-    # maybe to common
+    Args:
+        table: list of lists with data
+
+    Returns:
+        dict: key (str), value (int)
+    """
     games = 0
     manufacturer_apperance = 0
 
@@ -256,5 +266,7 @@ def get_average_by_manufacturer(table, manufacturer):
         avrg_games_by_manufacturer = games / manufacturer_apperance
     except ZeroDivisionError as err:
         ui.print_error_message(err)
+
+    avrg_games_by_manufacturer = round(avrg_games_by_manufacturer, 2)
 
     return avrg_games_by_manufacturer

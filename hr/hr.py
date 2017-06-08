@@ -5,17 +5,28 @@
 # birth_date: number (year)
 
 
-# importing everything you need
+# Importing everything you need
 import os
 # User interface module
 import ui
-# data manager module
+# Data manager module
 import data_manager
-# common module
+# Common module
 import common
 
 
 def choose_option(table):
+    """
+    Asks user for input and basing on this calls proper function
+
+    Args:
+        table: list of lists with data
+
+    Returns:
+        Table with a new record
+        String with user's input
+    """
+
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
 
@@ -44,6 +55,7 @@ def start_module():
     Starts this module and displays its menu.
     User can access default special features from here.
     User can go back to main menu from here.
+    File is being overwritten from here.
 
     Returns:
         None
@@ -64,7 +76,7 @@ def start_module():
 
 def show_table(table):
     """
-    Display a table
+    Calls function which prints the table.
 
     Args:
         table: list of lists to be displayed.
@@ -109,6 +121,7 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
+
     table, successful = common.remove_record(table, id_)
 
     if not successful:
@@ -145,11 +158,8 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
         while type(user_input) != answers_types[i]:
             user_input = ui.get_inputs([questions[i]], '')[0]
             user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
-        #---------------------------------------------------------------------#
-            # Other differences while asking for data here
 
-
-        #---------------------------------------------------------------------#
+        # Other differences while asking for data here
         user_data.append(user_input)
 
     user_data.insert(0, id_)
@@ -174,28 +184,22 @@ def update(table, id_):
 
     id_storage = common.get_values_from_column(table, 0)
     if id_ in id_storage:
+
         # Here u can make changes:
-        #---------------------------------------------------------------------#
         list_options = ['Modify record']
         questions = ['Name', 'Year']
         answers_types = [str, int]
         is_alpha = [True, False]
-        #---------------------------------------------------------------------#
 
         ui.print_menu('Possible orders:', list_options, "Exit to Menu")
         user_input = ui.get_inputs([''], '')[0]
         if user_input == '1':
             table, row = get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha)
 
-        # Individual differences after getting data HERE \/
-
-
-        #---------------------------------------------------------------------#
     else:
         ui.print_error_message('This option does not exist.')
 
     return table
-
 
 
 # special functions:
@@ -204,6 +208,15 @@ def update(table, id_):
 # the question: Who is the oldest person ?
 # return type: list of strings (name or names if there are two more with the same value)
 def get_oldest_person(table):
+    """
+    Gets the oldest people from the table.
+
+    Args:
+        table: list of lists with data
+
+    Returns:
+        List with names (strings) of the oldest people
+    """
 
     years_list = common.get_values_from_column(table, 2, "int")
     sorted_years_list = common.insertion_sorting(years_list)
@@ -215,9 +228,19 @@ def get_oldest_person(table):
 # the question: Who is the closest to the average age ?
 # return type: list of strings (name or names if there are two more with the same value)
 def get_persons_closest_to_average(table):
+    """
+    Counts average birth year of all people from the table.
+    Gets person (or people) who were born closest to the average birth year.
+
+    Args:
+        table: list of lists with data
+
+    Returns:
+        List with names (strings) of people closest to the average birth year
+    """
 
     years_list = common.get_values_from_column(table, 2, "int")
-    average_year = common.get_average_year(years_list)
+    average_year = get_average_year(years_list)
 
     lowest_difference = float("inf")
 
@@ -230,3 +253,23 @@ def get_persons_closest_to_average(table):
     closest_people = [table[i][1] for i in range(len(table)) if table[i][2] == closest_value]
 
     return closest_people
+
+
+def get_average_year(years_list):
+    """
+    Counts average year from all years given in the list.
+
+    Args:
+        years_list: list of ints
+
+    Returns:
+        average_year: float
+    """
+
+    sum_of_years = 0
+    for year in years_list:
+        sum_of_years += year
+
+    average_year = sum_of_years / len(years_list)
+
+    return average_year

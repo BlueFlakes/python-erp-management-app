@@ -124,7 +124,6 @@ def remove(table, id_):
     return table
 
 
-
 def get_correct_type(user_input, answers_types, alpha_string):
     if answers_types == int:
         try:
@@ -153,11 +152,8 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
         while type(user_input) != answers_types[i]:
             user_input = ui.get_inputs([questions[i]], '')[0]
             user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
-        #---------------------------------------------------------------------#
-            # Other differences while asking for data here
 
-
-        #---------------------------------------------------------------------#
+        # Other differences while asking for data here
         user_data.append(user_input)
 
     user_data.insert(0, id_)
@@ -182,29 +178,22 @@ def update(table, id_):
 
     id_storage = common.get_values_from_column(table, 0)
     if id_ in id_storage:
+
         # Here u can make changes:
-        #---------------------------------------------------------------------#
         list_options = ['Modify record']
         questions = ['Name', 'Manufacturer', 'Purchase date', 'Durability']
         answers_types = [str, str, int, int]
         is_alpha = [False, False, False, False]
-        #---------------------------------------------------------------------#
 
         ui.print_menu('Possible orders:', list_options, "Exit to Menu")
         user_input = ui.get_inputs([''], '')[0]
         if user_input == '1':
             table, row = get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha)
 
-        # Individual differences after getting data HERE \/
-
-
-        #---------------------------------------------------------------------#
     else:
         ui.print_error_message('This option does not exist.')
 
     return table
-
-
 
 
 # special functions:
@@ -215,6 +204,15 @@ def update(table, id_):
 #
 # @table: list of lists
 def get_available_items(table):
+    """
+    Check if durability of items are not exceed.
+
+    Args:
+        table: list of lists with data
+
+    Returns:
+        list of lists: inner list contain all information that are given in data structure (on top of module in comment)
+    """
     CURRENT_YEAR = 2017
     list_items = []
 
@@ -231,30 +229,26 @@ def get_available_items(table):
     return list_items
 
 
-def creat_list_manufacturers(table):
-    uniqe_manufacturers = []
-
-    for i in range(len(table)):
-        try:
-            if table[i][2] not in uniqe_manufacturers:
-                uniqe_manufacturers.append(table[i][2])
-        except IndexError:
-            pass
-
-    return uniqe_manufacturers
-
-
 # the question: What are the average durability itmes for each manufacturer?
 # return type: a dictionary with this structure: { [manufacturer] : [avg] }
 #
 # @table: list of lists
 def get_average_durability_by_manufacturers(table):
+    """
+    Creat dictionary that contain manufacturer name as key and
+    avarage durability of all items from this manufacturer.
 
+    Args:
+        table: list of lists with data
+
+    Returns:
+        dict: key str, value float
+    """
     avrg_durability = []
     manufacturers_dict = {}
     items = 0
 
-    uniqe_manufacturers = creat_list_manufacturers(table)
+    uniqe_manufacturers = common.create_list_of_unique(table, 2)
 
     for j in range(len(uniqe_manufacturers)):
         durability = 0
