@@ -194,7 +194,6 @@ def update(table, id_):
         answers_types = [str, str, int]
         is_alpha = [False, False, False]
 
-
         ui.print_menu('Possible orders:', list_options, "Exit to Menu")
         user_input = ui.get_inputs([''], '')[0]
         if user_input == '1':
