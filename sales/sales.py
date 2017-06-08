@@ -259,40 +259,71 @@ def get_lowest_price_item_id(table):
 # return type: list of lists (the filtered table)
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
 
-    sold_items = []
-    temp_table = [x[:] for x in table]
+    table = [x[:] for x in table]
 
-    for item in temp_table:
-        game_year = int(item[5])
-        game_month = int(item[3])
-        game_day = int(item[4])
-        year_from, month_from, day_from = int(year_from), int(month_from), int(day_from)
-        year_to, month_to, day_to = int(year_to), int(month_to), int(day_to)
+    dates = [year_from, month_from, day_from, year_to, month_to, day_to]
+    dates, date_from, date_to = get_dates(dates)
 
-        if game_year >= year_from and game_year <= year_to:
-            if game_year != year_from and game_year != year_to:
-                sold_items.append(item)
-            elif game_year == year_from:
-                if game_month > month_from:
-                    if year_from == year_to:
-                        if game_month < month_to:
-                            sold_items.append(item)
-                    elif year_from != year_to:
-                        sold_items.append(item)
-                elif game_month == month_from:
-                    if game_day > day_from:
-                        sold_items.append(item)
-            elif game_year == year_to:
-                if game_month < month_to:
-                    sold_items.append(item)
-                elif game_month == month_to:
-                    if game_day < day_to:
-                        sold_items.append(item)
+    dates_of_games = get_dates_of_games(table)
 
-    for item in sold_items:
+    games_between_dates = get_games_between_dates(dates_of_games, date_from, date_to)
+
+    sold_games = get_sold_games(dates_of_games, games_between_dates, table)
+
+    return sold_games
+
+
+def check_correctness_of_arguments(dates):
+    for i in range(len(dates)):
+        dates[i] = str(dates[i])
+        if len(dates[i]) < 2:
+            dates[i] = "0" + dates[i]
+
+    return dates
+
+
+def get_dates_of_games(table):
+    dates_of_games = []
+    for item in table:
+        for i in range(3, 5):
+            if len(item[i]) < 2:
+                item[i] = "0" + item[i]
+
+        date = item[5] + item[3] + item[4]
+        dates_of_games.append(date)
+
+    return dates_of_games
+
+
+def get_games_between_dates(dates_of_games, date_from, date_to):
+    games_between_given_dates = []
+    for number in dates_of_games:
+        if int(number) > int(date_from) and int(number) < int(date_to):
+            games_between_given_dates.append(number)
+
+    return games_between_given_dates
+
+
+def get_dates(dates):
+    dates = check_correctness_of_arguments(dates)
+
+    date_from = dates[0] + dates[1] + dates[2]
+    date_to = dates[3] + dates[4] + dates[5]
+
+    return dates, date_from, date_to
+
+
+def get_sold_games(dates_of_games, games_between_dates, table):
+    sold_games = []
+    for i in range(len(dates_of_games)):
+        for j in range(len(games_between_dates)):
+            if dates_of_games[i] == games_between_dates[j]:
+                sold_games.append(table[i])
+
+    for item in sold_games:
         item[2] = int(item[2])
         item[3] = int(item[3])
         item[4] = int(item[4])
         item[5] = int(item[5])
 
-    return sold_items
+    return sold_games
