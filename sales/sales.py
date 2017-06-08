@@ -130,6 +130,60 @@ def remove(table, id_):
     return table
 
 
+def get_correct_type(user_input, answers_types, alpha_string):
+    if answers_types == int:
+        try:
+            user_input = int(user_input)
+        except:
+            user_input = None
+            ui.print_error_message("Wrong value provided.\n")
+
+    elif answers_types == str:
+        if alpha_string:
+            user_input = user_input.replace(' ', '')
+
+            if not user_input.isalpha():
+                user_input = None
+                ui.print_error_message('It not alpha string.')
+
+    return user_input
+
+
+def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha):
+    user_data = []
+
+    for i in range(len(questions)):
+        user_input = None
+
+        while type(user_input) != answers_types[i]:
+            user_input = ui.get_inputs([questions[i]], '')[0]
+            user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
+        #---------------------------------------------------------------------#
+            # Other differences while asking for data here
+            if i == 2:
+                if type(user_input) == int:
+                    if user_input > 12 or user_input < 1:
+                        user_input = None
+                        ui.print_error_message("Wrong value provided.")
+
+            elif i == 3:
+                if type(user_input) == int:
+                    if user_input > 31 or user_input < 1:
+                        user_input = None
+                        ui.print_error_message("Wrong value provided.")
+
+
+        #---------------------------------------------------------------------#
+        user_data.append(user_input)
+
+    user_data.insert(0, id_)
+    user_data = [str(record) for record in user_data]
+    row_number = common.get_item_row(id_storage, id_)
+    table[row_number] = user_data
+
+    return table, row_number
+
+
 def update(table, id_):
     """
     Updates specified record in the table. Ask users for new data.
@@ -142,7 +196,28 @@ def update(table, id_):
         table with updated record
     """
 
-    # your code
+    id_storage = common.get_values_from_column(table, 0)
+    if id_ in id_storage:
+        # Here u can make changes:
+        #---------------------------------------------------------------------#
+        list_options = ['Modify record']
+        questions = ['Title', 'Price', 'Month', 'Day', 'Year']
+        answers_types = [str, int, int, str, int]
+        is_alpha = [False, False, False, False, False]
+        #---------------------------------------------------------------------#
+
+        ui.print_menu('Possible orders:', list_options, "Exit to Menu")
+        user_input = ui.get_inputs([''], '')[0]
+        if user_input == '1':
+            table, row = get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha)
+
+        # Individual differences after getting data HERE \/
+
+
+
+        #---------------------------------------------------------------------#
+    else:
+        ui.print_error_message('This option does not exist.')
 
     return table
 
@@ -185,8 +260,9 @@ def get_lowest_price_item_id(table):
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
 
     sold_items = []
+    temp_table = [x[:] for x in table]
 
-    for item in table:
+    for item in temp_table:
         game_year = int(item[5])
         game_month = int(item[3])
         game_day = int(item[4])
@@ -212,12 +288,11 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
                 elif game_month == month_to:
                     if game_day < day_to:
                         sold_items.append(item)
-    print(sold_items)
 
-    for i in sold_items:
-        i[2] = int(i[2])
-        i[3] = int(i[3])
-        i[4] = int(i[4])
-        i[5] = int(i[5])
+    for item in sold_items:
+        item[2] = int(item[2])
+        item[3] = int(item[3])
+        item[4] = int(item[4])
+        item[5] = int(item[5])
 
     return sold_items

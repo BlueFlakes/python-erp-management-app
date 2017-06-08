@@ -128,7 +128,7 @@ def remove(table, id_):
 
 
 #-----------------------------------------------------------------------------#
-def get_correct_type(user_input, answers_types, alpha_string, special_string):
+def get_correct_type(user_input, answers_types, alpha_string):
     if answers_types == int:
         try:
             user_input = int(user_input)
@@ -140,14 +140,14 @@ def get_correct_type(user_input, answers_types, alpha_string, special_string):
         if alpha_string:
             user_input = user_input.replace(' ', '')
 
-            if not user_input.isalpha() and not special_string:
+            if not user_input.isalpha():
                 user_input = None
                 ui.print_error_message('It not alpha string.')
 
     return user_input
 
 
-def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha, special_string):
+def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha):
     user_data = []
 
     for i in range(len(questions)):
@@ -155,10 +155,22 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
 
         while type(user_input) != answers_types[i]:
             user_input = ui.get_inputs([questions[i]], '')[0]
-            user_input = get_correct_type(user_input, answers_types[i], is_alpha[i], special_string[i])
+            user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
         #---------------------------------------------------------------------#
             # Other differences while asking for data here
-            if i == 3:
+            if i == 0:
+                if type(user_input) == int:
+                    if user_input > 12 or user_input < 1:
+                        user_input = None
+                        ui.print_error_message("Wrong value provided.")
+
+            elif i == 1:
+                if type(user_input) == int:
+                    if user_input > 31 or user_input < 1:
+                        user_input = None
+                        ui.print_error_message("Wrong value provided.")
+
+            elif i == 3:
                 if user_input.lower() not in ['in', 'out']:
                     user_input = None
                     ui.print_error_message("Wrong value provided.")
@@ -197,16 +209,13 @@ def update(table, id_):
         list_options = ['Modify record']
         questions = ['Month', 'Day', 'Year', 'Incom/outcom( in or out)', 'amount (dollars)']
         answers_types = [int, int, int, str, int]
-        is_alpha = [False, False, False, True, False]
-        # special_string False if string can contain sign, digit and letters
-        # otherway True
-        special_string = [False, False, False, True, False]
+        is_alpha = [False, False, False, False, False]
         #---------------------------------------------------------------------#
 
         ui.print_menu('Possible orders:', list_options, "Exit to Menu")
         user_input = ui.get_inputs([''], '')[0]
         if user_input == '1':
-            table, row = get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha, special_string)
+            table, row = get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha)
 
         # Individual differences after getting data HERE \/
 
