@@ -12,10 +12,13 @@ import random
 # @generated: string - randomly generated string (unique in the @table)
 def generate_random(table):
     """
-    Generates random and unique string. Used for id/key generation.
+    Generates random and unique string used for id/key generation.
+    String has 2 special characters except ;
+    String has 2 numbers, 2 lower letters, 2 upper lettes.
+    String (id) is different than all the others.
 
     Args:
-        table: list containing keys. Generated string should be different then all of them
+        table: list containing keys.
 
     Returns:
         Random and unique string
@@ -71,21 +74,9 @@ def insertion_sorting(numbers):
     return numbers
 
 
-
-def get_average_year(years_list):
-    # from hr module
-    sum_of_years = 0
-    for year in years_list:
-        sum_of_years += year
-
-    average_year = sum_of_years / len(years_list)
-
-    return average_year
-
-
 def get_values_from_column(table, column_number, items_types='str'):
     temp_storage = []
-    digits = [i for i in range(0,10)]
+    digits = [i for i in range(0, 10)]
 
     for i in range(len(table[0])):
         temp_storage.append([])
@@ -130,10 +121,11 @@ def find_longest_string_in_list(list_of_names, return_row_number=False):
         if len(list_of_names[i]) == longest:
             rows_collector.append(i)
 
-    if return_row_number == True:
+    if return_row_number is True:
         longest = [longest, rows_collector]
 
     return longest
+
 
 def get_item_row(table, item):
     row_number = None
@@ -184,5 +176,3 @@ def create_list_of_unique(table, column_in_file):
             pass
 
     return list_of_unique
-
-#
