@@ -240,34 +240,21 @@ def get_available_items(table):
     return list_items
 
 
-def creat_list_manufacturers(table):
-    """
-    Creat list of manufactures years based on data read from .csv file
-
-    Args:
-        table: list of lists with data
-
-    Returns:
-        list of unique strings
-    """
-    uniqe_manufacturers = []
-
-    for i in range(len(table)):
-        try:
-            if table[i][2] not in uniqe_manufacturers:
-                uniqe_manufacturers.append(table[i][2])
-        except IndexError:
-            pass
-
-    return uniqe_manufacturers
-
-
 # the question: What are the average durability itmes for each manufacturer?
 # return type: a dictionary with this structure: { [manufacturer] : [avg] }
 #
 # @table: list of lists
 def get_average_durability_by_manufacturers(table):
+    """
+    Creat dictionary that contain manufacturer name as key and
+    avarage durability of all items from this manufacturer.
 
+    Args:
+        table: list of lists with data
+
+    Returns:
+        dict: key str, value float
+    """
     avrg_durability = []
     manufacturers_dict = {}
     items = 0

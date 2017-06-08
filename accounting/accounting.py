@@ -233,28 +233,6 @@ def update(table, id_):
     return table
 
 
-# def creat_list_uniqe_years(table):
-#     """
-#     Creat list of uniqe years based on data read from .csv file
-
-#     Args:
-#         table: list of lists with data
-
-#     Returns:
-#         list of unique strings
-#     """
-#     uniqe_year = []
-
-#     for i in range(len(table)):
-#         try:
-#             if table[i][3] not in uniqe_year:
-#                 uniqe_year.append(table[i][3])
-#         except IndexError:
-#             pass
-
-#     return uniqe_year
-
-
 def make_list_profit_year(uniqe_year, table):
     """
     Calculate profit as difference between sum of incomes and sum of outcomes.
