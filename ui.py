@@ -1,5 +1,3 @@
-
-
 def check_lists_length(table, title_list):
     """
     Check the length of nested list in table and compare it to the length of
@@ -22,6 +20,7 @@ def check_lists_length(table, title_list):
             is_length_equal = True
 
     return is_length_equal
+
 
 def convert_each_string_to_integer(table, temp):
     """
@@ -57,7 +56,7 @@ def check_table_for_type_bugs(table):
     broken_data = False
 
     for row in table:
-        if type(row) == list and broken_data == False:
+        if type(row) == list and broken_data is False:
             for column in row:
                 if type(column) == str:
                     broken_data = False
@@ -124,6 +123,7 @@ def check_data_for_bugs(table, title_list):
     lists_length_equal = check_lists_length(table, title_list)
     if not lists_length_equal:
         raise ValueError('Wrong amount of data is stored in table or title_list.')
+
 
 def highest_numbers_in_collections(data):
     """
@@ -280,6 +280,7 @@ def add_free_space_on_the_sides(columns_width):
 
     return columns_width
 
+
 def calculate_height(table, record_height):
     """
     This function calculate the amount of rows in board
@@ -314,6 +315,7 @@ def sum_numbers(list_of_numbers):
         sum_score += number
 
     return sum_score
+
 
 def create_board(height, width, record_height, separators):
     """
@@ -350,6 +352,7 @@ def create_board(height, width, record_height, separators):
 
     return board
 
+
 def print_board(board):
 
     for row in board:
@@ -357,6 +360,7 @@ def print_board(board):
             print(column, end='')
 
         print()
+
 
 def insert_title(board, title_list, columns_width, column_separators):
     """
@@ -388,6 +392,7 @@ def insert_title(board, title_list, columns_width, column_separators):
             board[2][start_point+j] = title_list[i][j]
 
     return board
+
 
 def insert_to_table(board, table, columns_width, column_separators, record_height):
     """
@@ -426,6 +431,7 @@ def insert_to_table(board, table, columns_width, column_separators, record_heigh
 
     return board
 
+
 def insert_data_to_rows(board, table, title_list, columns_width, column_separators, record_height):
     """This function modify corners, it's is such easyer way to insert values
     in corners because they got constant index in table.
@@ -446,6 +452,7 @@ def insert_data_to_rows(board, table, title_list, columns_width, column_separato
     board = insert_to_table(board, table, columns_width, column_separators, record_height)
 
     return board
+
 
 def modify_corners(board):
     """This function modify corners, it's is such easyer way to insert values
@@ -581,10 +588,9 @@ def print_menu(title, list_options, exit_message):
 
     for i in range(len(list_options)):
         position_number = "({}) ".format(str(i+1))
-        print(1 * '\t'+ position_number + list_options[i])
+        print(1 * '\t' + position_number + list_options[i])
 
     print(1 * '\t' + "(0) " + exit_message)
-
 
 
 def get_inputs(list_labels, title):
@@ -609,7 +615,6 @@ def get_inputs(list_labels, title):
     inputs = []
     if type(list_labels) == list:
         print(title)
-
 
         for question in list_labels:
             user_input = input(question)
@@ -636,36 +641,3 @@ def print_error_message(message):
         This function doesn't return anything it only prints to console.
     """
     print(message)
-
-
-def main():
-    pass
-    #print(get_inputs(["Name","Surname","Age"],"Please provide your personal information"))
-    #print_menu('Tytul:', ['opcja1', 'opcja2', 'opcja3'], 'exit message')
-
-    #----------------------------------------------------------------------Done
-    #table = [['1234', '12345', '1234678','','',''], ['1234', '12345', '1234678','','','']]
-    #title_list = ['ssa', 'zus', 'slonceeeeeee','','s','']
-
-
-    #print_table(table, title_list)
-    #----------------------------------------------------------------------Done
-    #print_result({'kamil': 1000, 'Marcin': 230203, 'kuba': 12121}, 'takietam')
-    #----------------------------------------------------------------------Done
-
-
-
-if __name__ == "__main__":
-    main()
-
-
-
-
-
-
-
-
-
-
-
-#
