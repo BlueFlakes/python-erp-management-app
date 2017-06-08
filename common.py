@@ -53,6 +53,8 @@ def generate_random(table):
 
 def insertion_sorting(numbers):
     """
+    Sorts the list with numbers ascending.
+
     Parameters
     ----------
     numbers : list of int
