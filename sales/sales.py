@@ -202,7 +202,7 @@ def update(table, id_):
         #---------------------------------------------------------------------#
         list_options = ['Modify record']
         questions = ['Title', 'Price', 'Month', 'Day', 'Year']
-        answers_types = [str, int, int, str, int]
+        answers_types = [str, int, int, int, int]
         is_alpha = [False, False, False, False, False]
         #---------------------------------------------------------------------#
 
