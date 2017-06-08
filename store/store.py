@@ -265,7 +265,7 @@ def get_average_by_manufacturer(table, manufacturer):
     try:
         avrg_games_by_manufacturer = games / manufacturer_apperance
     except ZeroDivisionError as err:
-        ui.print_error_message(err)
+        ui.print_error_message("No entry with that manufacturer")
 
     avrg_games_by_manufacturer = round(avrg_games_by_manufacturer, 2)
 
