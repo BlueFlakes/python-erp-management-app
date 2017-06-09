@@ -164,7 +164,7 @@ def check_additional_specific_conditions(i, user_input):
 
     Args:
         param1: i (int) it is stepping progress of iterator
-        param2: user_input(str or int)
+        param2: user_input (str or int)
 
     Returns:
         user_input (str or int)
