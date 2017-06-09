@@ -165,3 +165,23 @@ def create_list_of_unique(table, column_in_file):
             pass
 
     return list_of_unique
+
+
+def get_average_value(values_list):
+    """
+    Counts average value from all integers given in a list.
+
+    Args:
+        values_list: list of ints
+
+    Returns:
+        average_value: float
+    """
+
+    sum_of_values = 0
+    for value in values_list:
+        sum_of_values += value
+
+    average_value = sum_of_values / len(values_list)
+
+    return average_value
