@@ -135,14 +135,14 @@ def get_correct_type(user_input, answers_types, alpha_string):
     if answers_types == int:
         try:
             user_input = int(user_input)
-        except:
+        except ValueError:
             user_input = None
             ui.print_error_message("Wrong value provided.\n")
 
     elif answers_types == float:
         try:
             user_input = float(user_input)
-        except:
+        except ValueError:
             user_input = None
             ui.print_error_message("Wrong value provided.\n")
 

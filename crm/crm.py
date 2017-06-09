@@ -125,9 +125,6 @@ def remove(table, id_):
     return table
 
 
-
-
-
 def get_correct_data_types(user_input, answer_type, alpha_string):
     """
     get_correct_data_types function change the type of input to
@@ -186,10 +183,10 @@ def get_data_from_user(questions, answers_types, id_storage, id_, is_alpha):
 
         user_data.append(user_input)
 
-
     user_data = [str(record) for record in user_data]
 
     return user_data
+
 
 def manage_data_from_user(table, id_storage, id_, update_row=False):
     """
@@ -257,8 +254,6 @@ def update(table, id_):
         ui.print_error_message('This option does not exist.')
 
     return table
-
-
 
 # special functions:
 # ------------------

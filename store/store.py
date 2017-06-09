@@ -185,6 +185,7 @@ def get_data_from_user(questions, answers_types, id_storage, id_, is_alpha):
 
     return user_data
 
+
 def manage_data_from_user(table, id_storage, id_, update_row=False):
     """
     Take input from user and delegates validation analysis.
