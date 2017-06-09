@@ -40,8 +40,8 @@ def choose_option(table):
             result = get_average_by_manufacturer(table, manufacturer)
             result = str(result)
             ui.print_result(result, "The avarage amount of games in stoc by {} is: ".format(manufacturer))
-        except UnboundLocalError as err:
-            ui.print_error_message(err)
+        except UnboundLocalError:
+            ui.print_error_message("")
 
     return option, table
 
