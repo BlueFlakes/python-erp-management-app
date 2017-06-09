@@ -77,6 +77,19 @@ def insertion_sorting(numbers):
 
 # used in other modules
 def get_values_from_column(table, column_number, items_types='str'):
+    """
+    Sorting items from rows to lists by columns
+    can try to convert item types to another data type
+
+    Args:
+        param1: table (list)
+        param2: column_number (int)
+        param3: items_types (bool)
+
+    returns:
+        temp_storage (list)
+
+    """
     temp_storage = []
     digits = [i for i in range(0, 10)]
 
@@ -97,7 +110,16 @@ def get_values_from_column(table, column_number, items_types='str'):
 
 
 def get_max(array):
+    """
+    Finding the number of row which contain variable item
 
+    Args:
+        param1: array (list)
+
+    returns:
+        longest (int) highest value
+
+    """
     if type(array[0]) == str:
         longest = len(array[0])
     elif type(array[0]) == int:
@@ -116,11 +138,22 @@ def get_max(array):
 
 
 # this is used in other modules
-def get_item_row(table, item):
+def get_item_row(array, item):
+    """
+    Finding the number of row which contain variable item
+
+    Args:
+        param1: array (list)
+        param2: item (str or int)
+
+    returns:
+        row_number (int)
+
+    """
     row_number = None
 
-    for i in range(len(table)):
-        if item == table[i]:
+    for i in range(len(array)):
+        if item == array[i]:
             row_number = i
             break
 
@@ -128,6 +161,18 @@ def get_item_row(table, item):
 
 # this is used in other modules
 def remove_record(table, id_):
+    """
+    removing record from list
+
+    Args:
+        param1: table (list)
+        param2: id_ (str)
+
+    Returns:
+        table (list)
+        successful (bool)
+
+    """
     id_storage = get_values_from_column(table, 0)
 
     records_amount = len(id_storage)
