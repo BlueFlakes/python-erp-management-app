@@ -100,15 +100,9 @@ def add(table):
     Returns:
         Table with a new record
     """
+    id_storage = common.get_values_from_column(table, 0)
     id_ = common.generate_random(table)
-
-    list_labels = ["month", "day", "year", "incom / outcome", "amount (dollars)"]
-
-    data_to_add = ui.get_inputs(list_labels, "Please provide month, day, year, incom / outcome, amount (dollars)")
-
-    data_to_add.insert(0, id_)
-
-    table.append(data_to_add)
+    table = manage_data_from_user(table, id_storage, id_, False)
 
     return table
 
@@ -132,26 +126,50 @@ def remove(table, id_):
     return table
 
 
-def get_correct_type(user_input, answers_types, alpha_string):
-    if answers_types == int:
+def get_correct_data_types(user_input, answer_type, alpha_string):
+    if answer_type == int:
         try:
             user_input = int(user_input)
         except:
             user_input = None
             ui.print_error_message("Wrong value provided.\n")
 
-    elif answers_types == str:
+    elif answer_type == str:
         if alpha_string:
-            user_input = user_input.replace(' ', '')
+            user_input_copy = user_input.replace(' ', '')
 
-            if not user_input.isalpha():
+            if not user_input_copy.isalpha():
                 user_input = None
                 ui.print_error_message('It not alpha string.')
 
     return user_input
 
 
-def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha):
+def check_specific_conditions(i, user_input):
+
+    if i == 0:
+        if type(user_input) == int:
+            if user_input > 12 or user_input < 1:
+                user_input = None
+                ui.print_error_message("Wrong value provided.")
+
+    elif i == 1:
+        if type(user_input) == int:
+            if user_input > 31 or user_input < 1:
+                user_input = None
+                ui.print_error_message("Wrong value provided.")
+
+    elif i == 3:
+        if user_input.lower() not in ['in', 'out']:
+            user_input = None
+            ui.print_error_message("Wrong value provided.")
+        else:
+            user_input = user_input.lower()
+
+    return user_input
+
+
+def get_data_from_user(questions, answers_types, id_storage, id_, is_alpha):
     user_data = []
 
     for i in range(len(questions)):
@@ -159,36 +177,44 @@ def get_data_for_update(table, questions, answers_types, id_storage, id_, is_alp
 
         while type(user_input) != answers_types[i]:
             user_input = ui.get_inputs([questions[i]], '')[0]
-            user_input = get_correct_type(user_input, answers_types[i], is_alpha[i])
+            user_input = get_correct_data_types(user_input, answers_types[i], is_alpha[i])
 
             # Other differences while asking for data here
-            if i == 0:
-                if type(user_input) == int:
-                    if user_input > 12 or user_input < 1:
-                        user_input = None
-                        ui.print_error_message("Wrong value provided.")
-
-            elif i == 1:
-                if type(user_input) == int:
-                    if user_input > 31 or user_input < 1:
-                        user_input = None
-                        ui.print_error_message("Wrong value provided.")
-
-            elif i == 3:
-                if user_input.lower() not in ['in', 'out']:
-                    user_input = None
-                    ui.print_error_message("Wrong value provided.")
-                else:
-                    user_input = user_input.lower()
+            user_input = check_specific_conditions(i, user_input)
 
         user_data.append(user_input)
 
-    user_data.insert(0, id_)
-    user_data = [str(record) for record in user_data]
-    row_number = common.get_item_row(id_storage, id_)
-    table[row_number] = user_data
 
-    return table, row_number
+    user_data = [str(record) for record in user_data]
+
+    return user_data
+
+def manage_data_from_user(table, id_storage, id_, update_row=False):
+    questions = ['Month', 'Day', 'Year', 'Incom/outcom( in or out)', 'amount (dollars)']
+    answers_types = [int, int, int, str, int]
+    is_alpha = [False, False, False, False, False]
+    
+    if update_row:
+        list_options = ['Modify record']
+    else:
+        list_options = ['Add record']
+
+    ui.print_menu('Possible orders:', list_options, "Exit to Menu")
+    user_input = ui.get_inputs([''], '')[0]
+
+    if user_input == '1':
+        user_data = get_data_from_user(questions, answers_types, id_storage, id_, is_alpha)
+
+        if update_row:
+            row_number = common.get_item_row(id_storage, id_)
+            user_data.insert(0, id_)
+            table[row_number] = user_data
+
+        else:
+            user_data.insert(0, id_)
+            table.append(user_data)
+
+    return table
 
 
 def update(table, id_):
@@ -202,20 +228,10 @@ def update(table, id_):
     Returns:
         table with updated record
     """
-
     id_storage = common.get_values_from_column(table, 0)
     if id_ in id_storage:
-
+        table = manage_data_from_user(table, id_storage, id_, True)
         # Here u can make changes:
-        list_options = ['Modify record']
-        questions = ['Month', 'Day', 'Year', 'Incom/outcom( in or out)', 'amount (dollars)']
-        answers_types = [int, int, int, str, int]
-        is_alpha = [False, False, False, False, False]
-
-        ui.print_menu('Possible orders:', list_options, "Exit to Menu")
-        user_input = ui.get_inputs([''], '')[0]
-        if user_input == '1':
-            table, row = get_data_for_update(table, questions, answers_types, id_storage, id_, is_alpha)
 
     else:
         ui.print_error_message('This option does not exist.')

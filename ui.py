@@ -617,7 +617,7 @@ def get_inputs(list_labels, title):
         print(title)
 
         for question in list_labels:
-            user_input = input(question)
+            user_input = input(question+': ')
             inputs.append(user_input)
 
     elif len(list_labels) == 1:
