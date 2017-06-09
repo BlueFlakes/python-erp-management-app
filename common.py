@@ -75,6 +75,7 @@ def insertion_sorting(numbers):
 
     return numbers
 
+
 # used in other modules
 def get_values_from_column(table, column_number, items_types='str'):
     temp_storage = []
@@ -90,7 +91,14 @@ def get_values_from_column(table, column_number, items_types='str'):
         try:
             temp_storage[column_number] = [int(number) for number in temp_storage[column_number]]
 
-        except:
+        except ValueError:
+            raise ValueError('Conversion is impossible, wrong data types have been provided.')
+
+    if items_types == 'float':
+        try:
+            temp_storage[column_number] = [float(number) for number in temp_storage[column_number]]
+
+        except ValueError:
             raise ValueError('Conversion is impossible, wrong data types have been provided.')
 
     return temp_storage[column_number]
@@ -125,6 +133,7 @@ def get_item_row(table, item):
             break
 
     return row_number
+
 
 # this is used in other modules
 def remove_record(table, id_):
