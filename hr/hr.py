@@ -240,7 +240,7 @@ def get_persons_closest_to_average(table):
     """
 
     years_list = common.get_values_from_column(table, 2, "int")
-    average_year = get_average_year(years_list)
+    average_year = common.get_average_value(years_list)
 
     lowest_difference = float("inf")
 
@@ -253,23 +253,3 @@ def get_persons_closest_to_average(table):
     closest_people = [table[i][1] for i in range(len(table)) if table[i][2] == closest_value]
 
     return closest_people
-
-
-def get_average_year(years_list):
-    """
-    Counts average year from all years given in the list.
-
-    Args:
-        years_list: list of ints
-
-    Returns:
-        average_year: float
-    """
-
-    sum_of_years = 0
-    for year in years_list:
-        sum_of_years += year
-
-    average_year = sum_of_years / len(years_list)
-
-    return average_year
