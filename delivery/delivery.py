@@ -139,6 +139,13 @@ def get_correct_type(user_input, answers_types, alpha_string):
             user_input = None
             ui.print_error_message("Wrong value provided.\n")
 
+    elif answers_types == float:
+        try:
+            user_input = float(user_input)
+        except:
+            user_input = None
+            ui.print_error_message("Wrong value provided.\n")
+
     elif answers_types == str:
         if alpha_string:
             user_input = user_input.replace(' ', '')
@@ -191,7 +198,7 @@ def update(table, id_):
         # ---------------------------------------------------------------------#
         list_options = ['Modify record']
         questions = ['Name', 'City', 'Hours']
-        answers_types = [str, str, int]
+        answers_types = [str, str, float]
         is_alpha = [True, True, False]
         # --------------------------------------------------------------------#
 
@@ -284,7 +291,7 @@ def check_if_equal_appearance(cities_appearance, most_common_cities, highest):
 
 
 def get_average_delivery_time(table):
-    delivery_times = common.get_values_from_column(table, 3, items_types='int')
+    delivery_times = common.get_values_from_column(table, 3, items_types='float')
 
     delivery_time = common.get_average_value(delivery_times)
     delivery_time = str(delivery_time)
