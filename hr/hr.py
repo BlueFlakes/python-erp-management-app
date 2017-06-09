@@ -127,6 +127,18 @@ def remove(table, id_):
 
 
 def get_correct_data_types(user_input, answer_type, alpha_string):
+    """
+    get_correct_data_types function change the type of input to
+    it's expected type.
+
+    Args:
+        param1: user_input (str)
+        param2: answer_type (the type which input should have)
+        param3: alpha_string (bool)
+
+    Returns:
+        user_input (str)
+    """
     if answer_type == int:
         try:
             user_input = int(user_input)
@@ -146,6 +158,19 @@ def get_correct_data_types(user_input, answer_type, alpha_string):
 
 
 def get_data_from_user(questions, answers_types, id_storage, id_, is_alpha):
+    """
+    Take input from user and delegates validation analysis.
+
+    Args:
+        param1: questions (list)
+        param2: answers_types (list)
+        param3: id_storage (list)
+        param4: id_ (str)
+        param5: is_alpha (bool)
+
+    Returns:
+        user_data (list)
+    """
     user_data = []
 
     for i in range(len(questions)):
@@ -164,6 +189,18 @@ def get_data_from_user(questions, answers_types, id_storage, id_, is_alpha):
     return user_data
 
 def manage_data_from_user(table, id_storage, id_, update_row=False):
+    """
+    Take input from user and delegates validation analysis.
+
+    Args:
+        param1: table (list)
+        param2: id_storage (list)
+        param3: id_ (str)
+        param4: update_row (bool)
+
+    Returns:
+        table (list)
+    """
     questions = ['Name', 'Year']
     answers_types = [str, int]
     is_alpha = [True, False]
