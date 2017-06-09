@@ -219,10 +219,10 @@ def get_data_from_user(questions, answers_types, id_storage, id_, is_alpha):
 
         user_data.append(user_input)
 
-
     user_data = [str(record) for record in user_data]
 
     return user_data
+
 
 def manage_data_from_user(table, id_storage, id_, update_row=False):
     """
