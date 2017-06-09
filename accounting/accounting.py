@@ -137,7 +137,7 @@ def get_correct_data_types(user_input, answer_type, alpha_string):
         param3: alpha_string (bool)
 
     Returns:
-        user_input (str)
+        user_input (int or str)
     """
     if answer_type == int:
         try:
@@ -167,7 +167,7 @@ def check_additional_specific_conditions(i, user_input):
         param2: user_input (str or int)
 
     Returns:
-        user_input (str or int)
+        user_input (str or int or None)
     """
     if i == 0:
         if type(user_input) == int:

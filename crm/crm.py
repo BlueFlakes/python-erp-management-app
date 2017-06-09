@@ -139,12 +139,12 @@ def get_correct_data_types(user_input, answer_type, alpha_string):
         param3: alpha_string (bool)
 
     Returns:
-        user_input (str)
+        user_input (str or int)
     """
     if answer_type == int:
         try:
             user_input = int(user_input)
-        except:
+        except ValueError:
             user_input = None
             ui.print_error_message("Wrong value provided.\n")
 
